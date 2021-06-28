@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="flex">
-      <div class="pt-2 relative text-gray-600">
-        <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-               type="search" name="search" placeholder="Search">
+    <div class="flex justify-end py-4">
+      <div class="pt-2 relative text-gray-600 w-full md:w-2/5">
+        <input class="w-full border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
+               type="search" name="search" placeholder="Search your transaction, an address or a block">
         <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">
           <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
                xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
@@ -15,15 +15,90 @@
         </button>
       </div>
     </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <!-- Blocks -->
+      <div class="w-full">
+        <h1 class="text-lg font-bold">Latest Blocks</h1>
+        <p class="text-sm text-gray-600">The most recently mined blocks</p>
+        <table class="w-full table-auto text-left mt-4">
+          <thead>
+          <tr>
+            <th class="text-sm text-gray-600 font-normal">Height</th>
+            <th class="text-sm text-gray-600 font-normal">Mined</th>
+            <th class="text-sm text-gray-600 font-normal">Transactions</th>
+            <th class="text-sm text-gray-600 font-normal">Size</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="(block) in blocks" :key="block.height">
+            <td class="text-sm font-normal">{{ block.index }}</td>
+            <td class="text-sm font-normal">{{ formatDateTime(block.timestamp) }}</td>
+            <td class="text-sm font-normal">{{ block.transactions.length }}</td>
+            <td class="text-sm font-normal">{{ getSizeInBytes(block) + ' bytes' }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Transactions -->
+      <div class="w-full">
+        <h1 class="text-lg font-bold">Latest Transactions</h1>
+        <p class="text-sm text-gray-600">The most recently transactions</p>
+        <table class="w-full table-auto text-left mt-4">
+          <thead>
+          <tr>
+            <th class="text-sm text-gray-600 font-normal">Hash</th>
+            <th class="text-sm text-gray-600 font-normal">Time</th>
+            <th class="text-sm text-gray-600 font-normal">Amount (vPKR)</th>
+            <th class="text-sm text-gray-600 font-normal">Amount (USD)</th>
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import moment from 'moment'
 export default {
-  name: "Explorer"
+  name: "Explorer",
+  data() {
+    return {
+      baseUrl: 'http://localhost:8080/coinectar/explorer',
+      blocks: []
+    }
+  },
+  methods: {
+    getLatestBlocks() {
+      axios.post(`${this.baseUrl}`, JSON.stringify({
+        method: "latestblocks"
+      }), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        this.blocks = response.data.data
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    getSizeInBytes(block) {
+      return new Intl.NumberFormat().format(Buffer.byteLength(JSON.stringify(block)))
+    },
+    formatDateTime(val) {
+      if ((moment().valueOf() - val) / (1000 * 60 * 60) < 24) {
+        return moment(val).fromNow()
+      }
+      return moment(val).format('YYYY-MM-DD HH:mm:ss')
+    }
+  },
+  mounted() {
+    this.getLatestBlocks()
+  }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
