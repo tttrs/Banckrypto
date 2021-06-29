@@ -10,51 +10,68 @@
                viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
                width="512px" height="512px">
             <path
-                d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"/>
           </svg>
         </button>
       </div>
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
+    <div class="w-full md:grid md:grid-cols-2 md:gap-4">
       <!-- Blocks -->
-      <div class="w-full">
+      <div class="w-full mb-4">
         <h1 class="text-lg font-bold">Latest Blocks</h1>
         <p class="text-sm text-gray-600">The most recently mined blocks</p>
-        <table class="w-full table-auto text-left mt-4">
-          <thead>
-          <tr>
-            <th class="text-sm text-gray-600 font-normal">Height</th>
-            <th class="text-sm text-gray-600 font-normal">Mined</th>
-            <th class="text-sm text-gray-600 font-normal">Transactions</th>
-            <th class="text-sm text-gray-600 font-normal">Size</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr v-for="(block) in blocks" :key="block.height">
-            <td class="text-sm font-normal">{{ block.index }}</td>
-            <td class="text-sm font-normal">{{ formatDateTime(block.timestamp) }}</td>
-            <td class="text-sm font-normal">{{ block.transactions.length }}</td>
-            <td class="text-sm font-normal">{{ getSizeInBytes(block) + ' bytes' }}</td>
-          </tr>
-          </tbody>
-        </table>
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mt-4">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+            <tr>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Height</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mined</th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transactions
+              </th>
+              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            <tr v-for="(block) in blocks" :key="block.height">
+              <td class="px-6 py-2 text-sm whitespace-nowrap">
+                <a href="" class="text-blue-700 hover:text-blue-900 hover:underline">{{ block.index }}</a>
+              </td>
+              <td class="px-6 py-2 text-sm whitespace-nowrap">{{ formatDateTime(block.timestamp) }}</td>
+              <td class="px-6 py-2 text-sm whitespace-nowrap">{{ block.transactions.length }}</td>
+              <td class="px-6 py-2 text-sm whitespace-nowrap">{{ getSizeInBytes(block) + ' bytes' }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Transactions -->
-      <div class="w-full">
+      <div class="w-full mb-4">
         <h1 class="text-lg font-bold">Latest Transactions</h1>
         <p class="text-sm text-gray-600">The most recently transactions</p>
-        <table class="w-full table-auto text-left mt-4">
-          <thead>
-          <tr>
-            <th class="text-sm text-gray-600 font-normal">Hash</th>
-            <th class="text-sm text-gray-600 font-normal">Time</th>
-            <th class="text-sm text-gray-600 font-normal">Amount (vPKR)</th>
-            <th class="text-sm text-gray-600 font-normal">Amount (USD)</th>
-          </tr>
-          </thead>
-        </table>
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mt-4">
+          <table>
+            <thead>
+            <tr>
+              <th>Hash</th>
+              <th>Time</th>
+              <th>Amount (vPKR)</th>
+              <th>Amount (USD)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(block) in blocks" :key="block.height">
+              <td>
+                <a href="" class="text-blue-700 hover:text-blue-900 hover:underline">{{ block.index }}</a>
+              </td>
+              <td>{{ formatDateTime(block.timestamp) }}</td>
+              <td>{{ block.transactions.length }}</td>
+              <td>{{ getSizeInBytes(block) + ' bytes' }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
@@ -63,6 +80,7 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
+
 export default {
   name: "Explorer",
   data() {
