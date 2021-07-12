@@ -50,8 +50,14 @@
       </div>
 
       <div class="flex items-center justify-between">
-        <button
-            class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded w-full">Create Wallet
+        <button :disabled="isLoading"
+            class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded w-full">
+          <svg class="animate-spin mx-auto h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+               fill="none" viewBox="0 0 24 24" v-if="isLoading">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span v-if="!isLoading">Create Wallet</span>
         </button>
       </div>
     </Form>
@@ -67,6 +73,7 @@
 import axios from 'axios'
 import {Field, Form, ErrorMessage} from 'vee-validate'
 import * as yup from 'yup'
+import {SAVE_TOKEN, SAVE_WALLET_ID, SAVE_WALLETS, SET_IS_LOGGED_IN, SET_MNEMONICS} from "@/store/keys";
 
 export default {
   name: "Signup",
@@ -83,18 +90,41 @@ export default {
     })
     return {
       schema,
-      baseUrl: process.env.VUE_APP_WALLET_URL
+      baseUrl: process.env.VUE_APP_WALLET_URL,
+      isLoading: false
     }
   },
   methods: {
     submit(values) {
+      this.isLoading = true
       axios.post(`${this.baseUrl}`, JSON.stringify({
         method: 'createwallet',
         params: [values.password]
       })).then(response => {
-        console.log(response.data)
+        this.isLoading = false
+        if (response.data.error === null) {
+          const data = response.data.result
+          this.$store.commit(SET_IS_LOGGED_IN, true)
+          this.$store.commit(SAVE_WALLET_ID, data.walletId)
+          const token = btoa(data.walletId + ':' + values.password)
+          this.$store.commit(SAVE_TOKEN, token)
+          const wallets = [
+            {
+              address: data.address,
+              balance: 0,
+              totalReceived: 0,
+              type: "primary"
+            }
+          ]
+          this.$store.commit(SAVE_WALLETS, wallets)
+          this.$store.commit(SET_MNEMONICS, data.mnemonics)
+          this.$router.push({name: 'home'})
+        } else {
+          this.$toast.error(response.data.error)
+        }
       }).catch(error => {
-        console.log(error)
+        this.isLoading = false
+        this.$toast.error(error.response.data.error)
       })
     }
   }

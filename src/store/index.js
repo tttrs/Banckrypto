@@ -5,7 +5,8 @@ import {
     UNSET_IS_LOGGED_IN,
     SAVE_WALLET_ID,
     SAVE_TOKEN,
-    SAVE_WALLETS
+    SAVE_WALLETS,
+    SET_MNEMONICS
 } from './keys'
 
 export default createStore({
@@ -13,13 +14,15 @@ export default createStore({
         isLoggedIn: false,
         walletId: null,
         token: null,
-        wallets: []
+        wallets: [],
+        mnemonics: null
     },
     getters: {
         isLoggedIn: (state) => state.isLoggedIn,
         walletId: (state) => state.walletId,
         token: (state) => state.token,
-        wallets: (state) => state.wallets
+        wallets: (state) => state.wallets,
+        mnemonics: (state) => state.mnemonics
     },
     mutations: {
         [SET_IS_LOGGED_IN](state, payload) {
@@ -36,6 +39,9 @@ export default createStore({
         },
         [SAVE_WALLETS](state, payload) {
             state.wallets = payload
+        },
+        [SET_MNEMONICS](state, payload) {
+            state.mnemonics = payload
         }
     },
     actions: {},
