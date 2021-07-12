@@ -1,0 +1,5 @@
+export const SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN'
+export const UNSET_IS_LOGGED_IN = 'UNSET_IS_LOGGED_IN'
+export const SAVE_WALLET_ID = 'SAVE_WALLET_ID'
+export const SAVE_TOKEN = 'SAVE_TOKEN'
+export const SAVE_WALLETS = 'SAVE_WALLETS'
