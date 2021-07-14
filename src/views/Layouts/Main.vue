@@ -34,20 +34,32 @@
                                class="text-white px-3 py-2 rounded-md text-sm font-medium">
                     Explorer
                   </router-link>
-                  <router-link tag="a" :to="{ name: 'login' }"
+                  <router-link tag="a" :to="{ name: 'wallet' }"
                                class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                     Wallet
                   </router-link>
                 </template>
                 <template v-if="isLoggedIn">
                   <router-link tag="a" :to="{ name: 'home' }"
-                               class="text-white px-3 py-2 rounded-md text-sm font-medium">
+                               class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:text-white active:text-white">
                     Home
                   </router-link>
+                  <a href="javascript:void(0)" @click="launchSendCryptoModal()"
+                     class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:text-white">
+                    Send
+                  </a>
+                  <a href="javascript:void(0)" @click="launchRequestCryptoModal()"
+                     class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:text-white">
+                    Request
+                  </a>
+                  <a href="javascript:void(0)"
+                     class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:text-white">
+                    Buy / Sell
+                  </a>
                 </template>
               </div>
-              <a class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
-                @click="logout()">Logout</a>
+              <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                 @click="logout()">Logout</a>
             </div>
           </div>
         </div>
@@ -63,7 +75,7 @@
                        class="text-white px-3 py-2 rounded-md text-sm font-medium">
             Explorer
           </router-link>
-          <router-link tag="a" :to="{ name: 'login' }"
+          <router-link tag="a" :to="{ name: 'wallet' }"
                        class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
             Wallet
           </router-link>
@@ -73,6 +85,20 @@
                        class="text-white px-3 py-2 rounded-md text-sm font-medium">
             Home
           </router-link>
+          <a href="javascript:void(0)" @click="launchSendCryptoModal()"
+             class="text-white px-3 py-2 rounded-md text-sm font-medium">
+            Send
+          </a>
+          <a href="javascript:void(0)" @click="launchRequestCryptoModal()"
+             class="text-white px-3 py-2 rounded-md text-sm font-medium">
+            Request
+          </a>
+          <a href="javascript:void(0)"
+             class="text-white px-3 py-2 rounded-md text-sm font-medium">
+            Buy / Sell
+          </a>
+          <a class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+             @click="logout()">Logout</a>
         </template>
       </div>
     </div>
@@ -80,16 +106,22 @@
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mb-4">
     <router-view/>
   </div>
+  <send-crypto></send-crypto>
+  <request-crypto></request-crypto>
 </template>
 
 <script>
 import {mapGetters} from "vuex"
+import RequestCrypto from '@/components/modals/RequestCrypto.vue'
+import SendCrypto from '@/components/modals/SendCrypto.vue'
 
 export default {
   name: "Main",
+  components: {SendCrypto, RequestCrypto},
   computed: {
     ...mapGetters([
-      'token'
+      'token',
+      'wallets',
     ]),
     isLoggedIn() {
       if (this.token && this.token !== '') {
@@ -103,6 +135,16 @@ export default {
     }
   },
   methods: {
+    launchSendCryptoModal() {
+      this.emitter.emit('send-crypto', {})
+    },
+    launchRequestCryptoModal() {
+      if (this.wallets.length > 0) {
+        this.emitter.emit('request-crypto', {
+          address: this.wallets[0].address
+        })
+      }
+    },
     logout() {
       let state = this.$store.state
       let newState = {}
@@ -116,10 +158,15 @@ export default {
         newState[key] = initialState[key]
       });
       this.$store.replaceState(newState);
-      this.$router.push({ name: 'login' })
+      this.$router.push({name: 'login'})
     }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.router-link-active,
+.router-link-exact-active {
+  color: white;
+}
+</style>

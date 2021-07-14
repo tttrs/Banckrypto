@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+  <div class="mx-auto w-full max-w-md mt-6 px-6 py-4 bg-white shadow overflow-hidden sm:rounded-lg">
     <h1 class="text-xl font-bold mb-4">Welcome Back!</h1>
     <Form @submit="submit" :validation-schema="schema">
       <div class="mb-4">
@@ -11,8 +11,7 @@
             <ErrorMessage name="walletId"/>
           </div>
         </div>
-        <Field name="walletId" id="walletId"
-               class="appearance-none border rounded w-full p-3 text-gray-700"/>
+        <Field name="walletId" id="walletId" class="form-input w-full rounded"/>
       </div>
 
       <div class="mb-4">
@@ -24,8 +23,7 @@
             <ErrorMessage name="password"/>
           </div>
         </div>
-        <Field name="password" type="password" id="password"
-               class="appearance-none border rounded w-full p-3 text-gray-700"/>
+        <Field name="password" type="password" id="password" class="form-input w-full rounded"/>
       </div>
       <div class="flex items-center justify-between">
         <button
@@ -42,7 +40,7 @@
     </Form>
   </div>
   <div class="text-center mt-4">
-    <router-link tag="a" :to="{ name: 'signup' }" class="text-white text-bold">
+    <router-link tag="a" :to="{ name: 'signup' }" class="text-gray-700 text-bold">
       Don't have a wallet? Sign Up
     </router-link>
   </div>

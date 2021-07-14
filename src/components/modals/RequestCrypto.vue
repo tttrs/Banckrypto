@@ -9,26 +9,24 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mt-3 text-center sm:mt-0 sm:text-left overflow-hidden">
             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-              Private key
+              Receive Crypto
             </h3>
             <div class="mt-2">
-              <label class="block text-gray-700 text-sm font-bold mb-2">{{ address }}</label>
-              <div class="flex items-center justify-between mb-2">
-                <label class="block text-gray-700 text-sm font-bold overflow-hidden overflow-ellipsis">
-                  {{ key }}</label>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     class="h-5 w-5 ml-2 text-gray-500 hover:text-blue-500 inline-block"
-                     viewBox="0 0 20 20" fill="currentColor" @click="copyToClipboard(key)">
-                  <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/>
-                  <path
-                      d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/>
-                </svg>
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2">
+                  Address
+                </label>
+                <div class="flex items-center justify-between">
+                  <p>{{ address }}</p>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 cursor-pointer text-gray-500 hover:text-blue-500 inline-block"
+                    viewBox="0 0 20 20" fill="currentColor" @click="copyToClipboard(address)">
+                    <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+                    <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+                  </svg>
+                </div>
               </div>
-              <div class="max-w-full">
-                  <span
-                      class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-700 bg-red-100 rounded">
-                    Warning: Never disclose this key. Anyone with your private keys can steal any assets held in your account.
-                  </span>
+              <div class="flex justify-center border rounded py-6 mt-4">
+                <qrcode-vue :value="address" :size="240"></qrcode-vue>
               </div>
             </div>
           </div>
@@ -45,15 +43,18 @@
 </template>
 
 <script>
+import QrcodeVue from 'qrcode.vue'
 import Utils from "../../utils"
 
 export default {
-  name: "ShowPrivateKey",
+  name: "RequestCrypto",
+  components: {
+    QrcodeVue
+  },
   data() {
     return {
       open: false,
-      address: null,
-      key: null
+      address: null
     }
   },
   methods: {
@@ -65,10 +66,9 @@ export default {
     }
   },
   mounted() {
-    this.emitter.on('show-private-key', (args) => {
+    this.emitter.on('request-crypto', (args) => {
       this.open = true
       this.address = args.address
-      this.key = args.key
     })
   }
 }

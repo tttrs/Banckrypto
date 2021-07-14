@@ -30,12 +30,10 @@
         <tbody class="bg-white divide-y divide-gray-200">
         <tr v-for="(wallet) in wallets" :key="wallet.address">
           <td class="px-4 py-2 whitespace-nowrap">
-            <router-link tag="a" :to="{ name: 'address', params: {address: wallet.address} }"
-                         class="text-blue-700 hover:text-blue-900 hover:underline">
-              {{ wallet.address }}
-            </router-link>
+            <a :href="'/explorer/address/' + wallet.address" class="text-blue-700 hover:text-blue-900 hover:underline"
+              target="_blank">{{ wallet.address }}</a>
             <span v-if="wallet.type"
-                  class="ml-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-blue-700 bg-blue-100 rounded">
+              class="ml-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-blue-700 bg-blue-100 rounded">
               {{ wallet.type }}
             </span>
           </td>

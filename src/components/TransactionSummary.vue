@@ -84,9 +84,8 @@
       <div class="col-span-3 overflow-hidden overflow-ellipsis">
         <div v-if="transaction.inputs">
           <router-link tag="a" :to="{ name: 'address', params: { address: transaction.inputs[0].UTXO.address } }"
-                       class="text-blue-700 hover:text-blue-900 hover:underline">{{
-              transaction.inputs[0].UTXO.address
-            }}
+            class="text-blue-700 hover:text-blue-900 hover:underline">
+            {{ transaction.inputs[0].UTXO.address }}
           </router-link>
         </div>
         <div v-else>COINBASE</div>

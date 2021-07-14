@@ -14,7 +14,7 @@
       <tr v-for="(block) in blocks" :key="block.height">
         <td class="px-4 py-2 whitespace-nowrap">
           <router-link tag="a" :to="{ name: 'blocks', params: { hash: block.hash } }"
-                       class="text-blue-700 hover:text-blue-900 hover:underline">{{ block.index }}
+            class="text-blue-700 hover:text-blue-900 hover:underline">{{ block.index }}
           </router-link>
         </td>
         <td class="px-4 py-2 whitespace-nowrap">{{ formatDateTime(block.timestamp) }}</td>
@@ -43,6 +43,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
