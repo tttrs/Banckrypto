@@ -72,7 +72,7 @@
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <template v-if="!isLoggedIn">
           <router-link tag="a" :to="{ name: 'explorer' }"
-                       class="text-white px-3 py-2 rounded-md text-sm font-medium">
+                       class="text-white px-3 py-2 block rounded-md text-sm font-medium">
             Explorer
           </router-link>
           <router-link tag="a" :to="{ name: 'wallet' }"
@@ -82,22 +82,22 @@
         </template>
         <template v-if="isLoggedIn">
           <router-link tag="a" :to="{ name: 'home' }"
-                       class="text-white px-3 py-2 rounded-md text-sm font-medium">
+                       class="text-white px-3 py-2 block rounded-md text-sm font-medium">
             Home
           </router-link>
           <a href="javascript:void(0)" @click="launchSendCryptoModal()"
-             class="text-white px-3 py-2 rounded-md text-sm font-medium">
+             class="text-white px-3 py-2 block rounded-md text-sm font-medium">
             Send
           </a>
           <a href="javascript:void(0)" @click="launchRequestCryptoModal()"
-             class="text-white px-3 py-2 rounded-md text-sm font-medium">
+             class="text-white px-3 py-2 block rounded-md text-sm font-medium">
             Request
           </a>
           <a href="javascript:void(0)"
-             class="text-white px-3 py-2 rounded-md text-sm font-medium">
+             class="text-white px-3 py-2 block rounded-md text-sm font-medium">
             Buy / Sell
           </a>
-          <a class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+          <a class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
              @click="logout()">Logout</a>
         </template>
       </div>

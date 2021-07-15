@@ -89,12 +89,16 @@ export default {
       }).then(response => {
         this.isLoading = false
         if (response.data.error === null) {
-          const data = response.data.result
-          this.$store.commit(SET_IS_LOGGED_IN, true)
-          this.$store.commit(SAVE_WALLET_ID, values.walletId)
-          this.$store.commit(SAVE_TOKEN, token)
-          this.$store.commit(SAVE_WALLETS, data)
-          this.$router.push({name: 'home'})
+          if (response.data.result !== null) {
+            const data = response.data.result
+            this.$store.commit(SET_IS_LOGGED_IN, true)
+            this.$store.commit(SAVE_WALLET_ID, values.walletId)
+            this.$store.commit(SAVE_TOKEN, token)
+            this.$store.commit(SAVE_WALLETS, data)
+            this.$router.push({name: 'home'})
+          } else {
+            this.$toast.error('Invalid Credentials')
+          }
         } else {
           this.$toast.error(response.data.error)
         }
@@ -107,6 +111,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

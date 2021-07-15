@@ -25,9 +25,9 @@ const routes = [
         }
       },
       {
-        path: 'transactions/:hash?',
-        name: 'transactions',
-        component: () => import(/* webpackChunkName: "transactions" */ '../views/Transactions.vue'),
+        path: 'transaction/:hash?',
+        name: 'transaction',
+        component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue'),
         meta: {
           requiresAuth: false
         }
@@ -74,6 +74,14 @@ const routes = [
         path: 'home',
         name: 'home',
         component: () => import(/* webpackChunkName: "home" */ '../views/Home'),
+        meta: {
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'transactions',
+        name: 'transactions',
+        component: () => import(/* webpackChunkName: "transactions" */ '../views/Transactions'),
         meta: {
           requiresAuth: true
         }

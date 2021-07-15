@@ -18,6 +18,9 @@
                     Carefully write down these 12 words in order. Do not email or screenshot your Secret Private Key Recovery Phrase.
                   </span>
               </div>
+              <div>
+                Wallet ID: {{ walletId }}
+              </div>
               <div class="max-w-full mt-4">
                 <div class="w-1/3 inline-block" v-for="(word, index) in mnemonics" :key="index">
                   {{ index + 1 + '. ' + word }}
@@ -39,12 +42,23 @@
 
 <script>
 
+import {mapGetters} from "vuex";
+
 export default {
   name: "ShowMnemonics",
   data() {
     return {
       open: false,
       mnemonics: []
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'token'
+    ]),
+    walletId() {
+      const token = atob(this.token)
+      return token.split(':')[0]
     }
   },
   methods: {

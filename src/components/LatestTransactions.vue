@@ -17,7 +17,7 @@
       <tbody class="bg-white divide-y divide-gray-200">
       <tr v-for="(transaction) in latestTransactions" :key="transaction.hash">
         <td class="px-4 py-2 whitespace-nowrap">
-          <router-link tag="a" :to="{ name: 'transactions', params: { hash: transaction.hash } }"
+          <router-link tag="a" :to="{ name: 'transaction', params: { hash: transaction.hash } }"
                        class="text-blue-700 hover:text-blue-900 hover:underline">
             <p class="w-24 xxl:w-64 overflow-ellipsis overflow-hidden block">
               {{ transaction.hash }}
@@ -66,6 +66,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

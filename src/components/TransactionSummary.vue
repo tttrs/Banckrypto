@@ -4,7 +4,7 @@
       <div class="flex items-center">
         <span class="text-gray-500 inline-block w-24">Hash</span>
         <template v-if="link && transaction.hash !== '0'">
-          <router-link tag="a" :to="{ name: 'transactions', params: { hash: transaction.hash } }"
+          <router-link tag="a" :to="{ name: 'transaction', params: { hash: transaction.hash } }"
                        class="text-blue-700 hover:text-blue-900 hover:underline inline-block">{{ transaction.hash }}
           </router-link>
         </template>
@@ -68,7 +68,7 @@
       <div class="text-gray-500">Hash</div>
       <div class="col-span-3 overflow-hidden overflow-ellipsis">
         <div v-if="link && transaction.hash !== '0'">
-          <router-link tag="a" :to="{ name: 'transactions', params: { hash: transaction.hash } }"
+          <router-link tag="a" :to="{ name: 'transaction', params: { hash: transaction.hash } }"
                        class="text-blue-700 hover:text-blue-900 hover:underline">{{ transaction.hash }}
           </router-link>
         </div>

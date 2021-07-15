@@ -1,27 +1,33 @@
 <template>
   <div class="my-4">
-    <div class="flex align-items justify-between">
-      <h1 class="text-lg font-bold">Wallets & Addresses</h1>
-      <button :disabled="isLoading" @click="generateNextAddress()"
-              class="w-full inline-flex items-center justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
-        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
-             fill="none" viewBox="0 0 24 24" v-if="isLoading">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-          <path class="opacity-75" fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        <span v-if="!isLoading">Create Next Address</span>
-      </button>
+    <div class="lg:flex align-items justify-between">
+      <h1 class="text-lg font-bold mb-2 lg:mb-0">Wallets & Addresses</h1>
+      <div class="flex align-items justify-between">
+        <router-link tag="a" :to="{ name: 'transactions' }"
+          class="rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm mr-2">
+          Transactions
+        </router-link>
+        <button :disabled="isLoading" @click="generateNextAddress()"
+                class="w-full inline-flex items-center justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+          <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+               fill="none" viewBox="0 0 24 24" v-if="isLoading">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span v-if="!isLoading">Create Next Address</span>
+        </button>
+      </div>
     </div>
     <div class="overflow-x-auto border-gray-200 sm:rounded-lg mt-4">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
         <tr>
           <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
-          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 whitespace-nowrap uppercase tracking-wider">
             Balance&nbsp;({{ currency }})
           </th>
-          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+          <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 whitespace-nowrap uppercase tracking-wider">
             Total Received&nbsp;({{ currency }})
           </th>
           <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -31,9 +37,9 @@
         <tr v-for="(wallet) in wallets" :key="wallet.address">
           <td class="px-4 py-2 whitespace-nowrap">
             <a :href="'/explorer/address/' + wallet.address" class="text-blue-700 hover:text-blue-900 hover:underline"
-              target="_blank">{{ wallet.address }}</a>
+               target="_blank">{{ wallet.address }}</a>
             <span v-if="wallet.type"
-              class="ml-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-blue-700 bg-blue-100 rounded">
+                  class="ml-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-blue-700 bg-blue-100 rounded">
               {{ wallet.type }}
             </span>
           </td>

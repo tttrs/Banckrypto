@@ -47,7 +47,7 @@
       </div>
 
       <div class="flex items-center justify-between">
-        <button :disabled="isLoading"
+        <button :disabled="isLoading" type="submit"
             class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded w-full">
           <svg class="animate-spin mx-auto h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
                fill="none" viewBox="0 0 24 24" v-if="isLoading">

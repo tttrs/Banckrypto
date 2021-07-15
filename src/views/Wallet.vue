@@ -26,23 +26,24 @@
           <h1 class="text-xl font-bold mb-4">Recover Wallet</h1>
           <Form @submit="submit" :validation-schema="schema">
             <div class="mb-4">
-              <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+              <label class="block text-gray-700 text-sm font-bold mb-2">
                 Recovery Option
               </label>
+              <ErrorMessage name="opt"/>
               <div class="mt-2">
                 <label class="inline-flex items-center">
-                  <input type="radio" class="form-radio" name="option" value="mnemonics"
-                         v-model="form.option">
+                  <Field name="opt" type="radio" class="form-radio" value="mnemonics"
+                         v-model="form.opt"/>
                   <span class="ml-2">Mnemonics</span>
                 </label>
                 <label class="inline-flex items-center ml-6">
-                  <input type="radio" class="form-radio" name="option" value="key"
-                         v-model="form.option">
+                  <Field name="opt" type="radio" class="form-radio" value="key"
+                         v-model="form.opt"/>
                   <span class="ml-2">Private Key</span>
                 </label>
               </div>
             </div>
-            <div class="mb-4" v-if="form.option === 'mnemonics'">
+            <div class="mb-4" v-if="form.opt === 'mnemonics'">
               <div class="flex items-center justify-between">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="mnemonics">
                   Mnemonics
@@ -54,7 +55,7 @@
               <Field name="mnemonics" type="text" id="mnemonics" class="form-input w-full rounded"
                      v-model="form.mnemonics"/>
             </div>
-            <div class="mb-4" v-if="form.option === 'key'">
+            <div class="mb-4" v-if="form.opt === 'key'">
               <div class="flex items-center justify-between">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="privateKey">
                   Private Key
@@ -76,7 +77,7 @@
                 </div>
               </div>
               <Field name="password" type="password" id="password" class="form-input w-full rounded"
-                     v-model="form.password"/>
+                     v-model="form.password" autocomplete="off"/>
             </div>
             <div class="flex items-center justify-between">
               <button :disabled="isLoading" type="submit"
@@ -100,6 +101,8 @@
 <script>
 import {ErrorMessage, Field, Form} from "vee-validate"
 import * as yup from "yup"
+import axios from "axios";
+import {SAVE_TOKEN, SAVE_WALLET_ID, SAVE_WALLETS, SET_IS_LOGGED_IN} from "@/store/keys";
 
 export default {
   name: "Wallet",
@@ -110,8 +113,9 @@ export default {
   },
   data() {
     return {
+      baseUrl: process.env.VUE_APP_WALLET_URL,
       form: {
-        option: 'key',
+        opt: 'mnemonics',
         mnemonics: '',
         privateKey: '',
         password: ''
@@ -122,18 +126,37 @@ export default {
   computed: {
     schema() {
       return yup.object({
-        option: yup.string().required('Required'),
-        mnemonics: this.form.option === 'mnemonics' ? yup.string().required('Required') : yup.string(),
-        privateKey: this.form.option === 'key' ? yup.string().required('Required') : yup.string(),
+        opt: yup.string().required('Required'),
+        mnemonics: this.form.opt === 'mnemonics' ? yup.string().required('Required') : yup.string(),
+        privateKey: this.form.opt === 'key' ? yup.string().required('Required') : yup.string(),
         password: yup.string().required('Required')
       })
     }
   },
   methods: {
     submit(values) {
-      console.log(values)
+      const val = values.opt === 'key' ? values.privateKey : values.mnemonics
       this.isLoading = true
-      this.$toast.info('Coming soon')
+      axios.post(`${this.baseUrl}`, JSON.stringify({
+        method: 'recoverwallet',
+        params: [values.password, val]
+      })).then(response => {
+        this.isLoading = false
+        if (response.data.error) {
+          this.$toast.error(response.data.error)
+        } else {
+          const data = response.data.result
+          const token = btoa(data.wallet.walletId + ':' + values.password)
+          this.$store.commit(SET_IS_LOGGED_IN, true)
+          this.$store.commit(SAVE_WALLET_ID, data.wallet.walletId)
+          this.$store.commit(SAVE_TOKEN, token)
+          this.$store.commit(SAVE_WALLETS, data.balance)
+          this.$router.push({name: 'home'})
+        }
+      }).catch(error => {
+        this.isLoading = false
+        console.log(error)
+      })
     },
   },
   mounted() {
