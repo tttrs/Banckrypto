@@ -120,12 +120,33 @@ export default {
           })
           this.$store.commit(SAVE_WALLETS, wallets)
           this.isLoading = false
+          // Get wallets details
+          this.getWalletsBalance()
         } else {
           this.isLoading = false
           this.$toast.error(response.data.error)
         }
       }).catch(error => {
         this.isLoading = false
+        this.$toast.error(error.response.data.error)
+      })
+    },
+    getWalletsBalance() {
+      axios.post(`${this.baseUrl}`, JSON.stringify({
+        method: 'loadwallet',
+        params: null
+      }), {
+        headers: {
+          Authorization: 'Basic ' + this.token
+        }
+      }).then(response => {
+        if (response.data.error === null) {
+          if (response.data.result !== null) {
+            const data = response.data.result
+            this.$store.commit(SAVE_WALLETS, data)
+          }
+        }
+      }).catch(error => {
         this.$toast.error(error.response.data.error)
       })
     }

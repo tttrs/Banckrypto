@@ -1,9 +1,19 @@
 <template>
   <div v-if="!isLoading">
-    <div v-for="(transaction) in transactions" :key="transaction.hash"
-         class="overflow-hidden rounded hover:bg-gray-100 bg-white mt-4">
-      <transaction-summary :transaction="transaction" :addresses="addresses"></transaction-summary>
-    </div>
+    <template v-if="transactions.length > 0">
+      <div v-for="(transaction) in transactions" :key="transaction.hash"
+           class="overflow-hidden rounded hover:bg-gray-100 bg-white mt-4">
+        <transaction-summary :transaction="transaction" :addresses="addresses"></transaction-summary>
+      </div>
+    </template>
+    <template v-else>
+      <div class="flex items-center justify-center h-72">
+        <div class="text-center">
+          <h1 class="text-lg font-medium mb-2">Transactions</h1>
+          <p>All your {{ currency }} transactions will show up here.</p>
+        </div>
+      </div>
+    </template>
   </div>
   <loader :loading="isLoading"></loader>
 </template>
@@ -21,7 +31,8 @@ export default {
     return {
       baseUrl: process.env.VUE_APP_WALLET_URL,
       transactions: [],
-      isLoading: false
+      isLoading: false,
+      currency: process.env.VUE_APP_CURRENCY
     }
   },
   computed: {

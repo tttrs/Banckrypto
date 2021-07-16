@@ -14,7 +14,7 @@
               <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
                 Verify password
               </h3>
-              <div class="mt-2">
+              <div class="my-2 px-1">
                 <div class="flex items-center justify-between">
                   <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
                     Password

@@ -5,7 +5,7 @@
       <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
       <div
-          class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
+        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mt-3 text-center sm:mt-0 sm:text-left overflow-hidden">
             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
@@ -14,11 +14,11 @@
             <div class="mt-2">
               <div class="max-w-full">
                   <span
-                      class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-700 bg-red-100 rounded">
+                    class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-red-700 bg-red-100 rounded">
                     Carefully write down these 12 words in order. Do not email or screenshot your Secret Private Key Recovery Phrase.
                   </span>
               </div>
-              <div>
+              <div class="mt-4">
                 Wallet ID: {{ walletId }}
               </div>
               <div class="max-w-full mt-4">
@@ -43,11 +43,13 @@
 <script>
 
 import {mapGetters} from "vuex";
+import axios from "axios";
 
 export default {
   name: "ShowMnemonics",
   data() {
     return {
+      baseUrl: process.env.VUE_APP_WALLET_URL,
       open: false,
       mnemonics: []
     }
@@ -64,12 +66,33 @@ export default {
   methods: {
     close() {
       this.open = false
+    },
+    getPassPhrase() {
+      axios.post(`${this.baseUrl}`, JSON.stringify({
+        method: "passphrase",
+        params: null
+      }), {
+        headers: {
+          Authorization: 'Basic ' + this.token
+        }
+      }).then(response => {
+        if (response.data.error === null) {
+          if (response.data.result !== null) {
+            this.mnemonics = response.data.result.split(' ')
+          }
+        }
+      }).catch(error => {
+        console.log(error.response.data.error)
+      })
     }
   },
   mounted() {
+    this.getPassPhrase()
     this.emitter.on('show-mnemonics', (args) => {
       this.open = true
-      this.mnemonics = args.mnemonics ? args.mnemonics.split(' ') : []
+      if (this.mnemonics.length === 0 && typeof args.mnemonics !== undefined) {
+        this.mnemonics = args.mnemonics ? args.mnemonics.split(' ') : []
+      }
     })
   }
 }

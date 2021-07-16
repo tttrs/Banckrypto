@@ -32,30 +32,34 @@
               <ErrorMessage name="opt"/>
               <div class="mt-2">
                 <label class="inline-flex items-center">
-                  <Field name="opt" type="radio" class="form-radio" value="mnemonics"
-                         v-model="form.opt"/>
+                  <Field name="opt" type="radio" class="form-radio" value="mnemonics" v-model="opt"/>
                   <span class="ml-2">Mnemonics</span>
                 </label>
                 <label class="inline-flex items-center ml-6">
-                  <Field name="opt" type="radio" class="form-radio" value="key"
-                         v-model="form.opt"/>
+                  <Field name="opt" type="radio" class="form-radio" value="key" v-model="opt"/>
                   <span class="ml-2">Private Key</span>
                 </label>
               </div>
             </div>
-            <div class="mb-4" v-if="form.opt === 'mnemonics'">
-              <div class="flex items-center justify-between">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="mnemonics">
-                  Mnemonics
-                </label>
-                <div class="text-red-700 text-sm">
-                  <ErrorMessage name="mnemonics"/>
+            <div class="mb-4" v-if="opt === 'mnemonics'">
+              <label class="block text-gray-700 text-sm font-bold mb-2">
+                Mnemonics
+              </label>
+              <div class="grid grid-cols-3 gap-2">
+                <div v-for="(mnemonic, idx) in mnemonics" :key="mnemonic.id">
+                  <div class="flex items-center justify-between">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" :for="`mnemonics_${idx}`">
+                      {{ mnemonic.id }}
+                    </label>
+                    <div class="text-red-700 text-sm">
+                      <ErrorMessage :name="`mnemonics[${idx}].word`" />
+                    </div>
+                  </div>
+                  <Field :name="`mnemonics[${idx}].word`" type="text" :id="`mnemonics_${idx}`" class="form-input w-full rounded"/>
                 </div>
               </div>
-              <Field name="mnemonics" type="text" id="mnemonics" class="form-input w-full rounded"
-                     v-model="form.mnemonics"/>
             </div>
-            <div class="mb-4" v-if="form.opt === 'key'">
+            <div class="mb-4" v-if="opt === 'key'">
               <div class="flex items-center justify-between">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="privateKey">
                   Private Key
@@ -64,8 +68,7 @@
                   <ErrorMessage name="privateKey"/>
                 </div>
               </div>
-              <Field name="privateKey" type="text" id="privateKey" class="form-input w-full rounded"
-                     v-model="form.privateKey"/>
+              <Field name="privateKey" type="text" id="privateKey" class="form-input w-full rounded"/>
             </div>
             <div class="mb-4">
               <div class="flex items-center justify-between">
@@ -77,7 +80,7 @@
                 </div>
               </div>
               <Field name="password" type="password" id="password" class="form-input w-full rounded"
-                     v-model="form.password" autocomplete="off"/>
+                     autocomplete="off"/>
             </div>
             <div class="flex items-center justify-between">
               <button :disabled="isLoading" type="submit"
@@ -101,8 +104,8 @@
 <script>
 import {ErrorMessage, Field, Form} from "vee-validate"
 import * as yup from "yup"
-import axios from "axios";
-import {SAVE_TOKEN, SAVE_WALLET_ID, SAVE_WALLETS, SET_IS_LOGGED_IN} from "@/store/keys";
+import axios from "axios"
+import {SAVE_TOKEN, SAVE_WALLET_ID, SAVE_WALLETS, SET_IS_LOGGED_IN} from "@/store/keys"
 
 export default {
   name: "Wallet",
@@ -114,12 +117,8 @@ export default {
   data() {
     return {
       baseUrl: process.env.VUE_APP_WALLET_URL,
-      form: {
-        opt: 'mnemonics',
-        mnemonics: '',
-        privateKey: '',
-        password: ''
-      },
+      opt: 'mnemonics',
+      mnemonics: [],
       isLoading: false
     }
   },
@@ -127,15 +126,21 @@ export default {
     schema() {
       return yup.object({
         opt: yup.string().required('Required'),
-        mnemonics: this.form.opt === 'mnemonics' ? yup.string().required('Required') : yup.string(),
-        privateKey: this.form.opt === 'key' ? yup.string().required('Required') : yup.string(),
+        mnemonics: this.opt === 'mnemonics' ? yup.array().of(
+          yup.object().shape({
+            word: yup.string().required('Required').label('word')
+          })
+        ).strict() : yup.array(),
+        privateKey: this.opt === 'key' ? yup.string().required('Required') : yup.string(),
         password: yup.string().required('Required')
       })
     }
   },
   methods: {
     submit(values) {
-      const val = values.opt === 'key' ? values.privateKey : values.mnemonics
+      const val = values.opt === 'key' ? values.privateKey : values.mnemonics.map(v => {
+        return v.word
+      }).join(' ').trim()
       this.isLoading = true
       axios.post(`${this.baseUrl}`, JSON.stringify({
         method: 'recoverwallet',
@@ -160,6 +165,11 @@ export default {
     },
   },
   mounted() {
+    for(let i = 1; i <= 12; i++) {
+      this.mnemonics.push({
+        id: i
+      })
+    }
   }
 }
 </script>
