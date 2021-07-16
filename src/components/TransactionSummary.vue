@@ -49,8 +49,8 @@
     </div>
     <div class="text-right px-4 p-4">
       <div v-if="transaction.inputs">
-        <template v-if="address">
-          <span v-if="!transaction.inputs || transaction.outputs[0].address === address"
+        <template v-if="address || addresses">
+          <span v-if="!transaction.inputs || transaction.outputs[0].address === address || (addresses && addresses.indexOf(transaction.outputs[0].address) !== -1)"
                 class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-700 bg-green-100 rounded">
             +{{ transaction.amount + ' ' + currency }}</span>
           <span v-else
@@ -120,7 +120,7 @@ import Utils from "../utils"
 
 export default {
   name: "TransactionSummary",
-  props: ['transaction', 'copy', 'link', 'address'],
+  props: ['transaction', 'copy', 'link', 'addresses', 'address'],
   data() {
     return {
       currency: process.env.VUE_APP_CURRENCY
