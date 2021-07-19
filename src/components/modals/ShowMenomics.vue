@@ -9,10 +9,10 @@
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mt-3 text-center sm:mt-0 sm:text-left overflow-hidden">
             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-              Secret Private Key Recovery Passphrase
+              {{ mnemonics.length > 0  ? 'Secret Private Key Recovery Passphrase' : 'Wallet ID' }}
             </h3>
             <div class="mt-2">
-              <div class="max-w-full">
+              <div class="max-w-full" v-if="mnemonics.length > 0">
                   <span
                     class="inline-flex items-center justify-center px-2 py-1 text-sm font-bold leading-none text-red-700 bg-red-100 rounded">
                     Carefully write down these 12 words in order. Do not email or screenshot your Secret Private Key Recovery Phrase.

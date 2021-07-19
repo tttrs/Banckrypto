@@ -60,6 +60,10 @@
               </div>
               <div>
                 <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                   @click="launchVerifyPasswordModal()">
+                  Wallet Private Key
+                </a>
+                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                    @click="launchSecurityModal()">Security</a>
                 <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                    @click="logout()">Logout</a>
@@ -150,6 +154,11 @@ export default {
           address: this.wallets[0].address
         })
       }
+    },
+    launchVerifyPasswordModal() {
+      this.emitter.emit('verify-password', {
+        address: null
+      })
     },
     launchSecurityModal() {
       this.emitter.emit('show-mnemonics', {})

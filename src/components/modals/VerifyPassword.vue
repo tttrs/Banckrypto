@@ -88,7 +88,7 @@ export default {
         this.isLoading = true
         axios.post(`${this.baseUrl}`, JSON.stringify({
           method: 'dumpprivkey',
-          params: [this.address]
+          params: this.address ? [this.address] : null
         }), {
           headers: {
             Authorization: 'Basic ' + this.token
