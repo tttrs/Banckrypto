@@ -49,7 +49,7 @@ export default {
       if (this.blocks.length > 0) {
         this.blocks.forEach(b => {
           b.transactions.forEach(t => {
-            if (transactions.length < 20) {
+            if (transactions.length < 5) {
               transactions.push(t)
             }
           })

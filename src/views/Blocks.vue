@@ -27,6 +27,7 @@ export default {
       baseUrl: process.env.VUE_APP_EXPLORER_URL,
       blocks: [],
       block: null,
+      page: 1,
       isLoading: true
     }
   },
@@ -38,6 +39,22 @@ export default {
     }
   },
   methods: {
+    getPaginatedBlocks() {
+      axios.post(`${this.baseUrl}`, JSON.stringify({
+        method: 'latestblocks',
+        params: [this.page]
+      }), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(response => {
+        this.blocks = response.data.result
+        this.isLoading = false
+      }).catch(error => {
+        this.isLoading = false
+        console.log(error)
+      })
+    },
     search(hash) {
       axios.post(`${this.baseUrl}`, JSON.stringify({
         method: 'search',
@@ -61,6 +78,7 @@ export default {
       this.search(this.$route.params.hash)
     } else {
       // Get paginated blocks
+      this.getPaginatedBlocks()
     }
   }
 }
