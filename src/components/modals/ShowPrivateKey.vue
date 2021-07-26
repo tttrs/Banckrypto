@@ -11,24 +11,24 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
               Private key
             </h3>
+            <div class="max-w-full mt-2">
+              <span
+                class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-700 bg-red-100 rounded">
+                    Warning: Never disclose this key. Anyone with your private keys can steal any assets held in your account.
+              </span>
+            </div>
             <div class="mt-2">
               <label class="block text-gray-700 text-sm font-bold mb-2">{{ address }}</label>
               <div class="flex items-center justify-between mb-2">
-                <label class="block text-gray-700 text-sm font-bold overflow-hidden overflow-ellipsis">
+                <label class="block text-gray-700 text-sm font-bold overflow-hidden overflow-ellipsis flex-1">
                   {{ key }}</label>
                 <svg xmlns="http://www.w3.org/2000/svg"
-                     class="h-5 w-5 ml-2 text-gray-500 hover:text-blue-500 inline-block"
+                     class="cursor-pointer h-5 w-5 ml-2 text-gray-500 hover:text-blue-500 inline-block"
                      viewBox="0 0 20 20" fill="currentColor" @click="copyToClipboard(key)">
                   <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"/>
                   <path
                       d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z"/>
                 </svg>
-              </div>
-              <div class="max-w-full">
-                  <span
-                      class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-700 bg-red-100 rounded">
-                    Warning: Never disclose this key. Anyone with your private keys can steal any assets held in your account.
-                  </span>
               </div>
             </div>
           </div>

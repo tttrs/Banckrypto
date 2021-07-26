@@ -58,8 +58,16 @@
                   </a>
                 </template>
               </div>
-              <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
-                 @click="logout()">Logout</a>
+              <div>
+                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                   @click="launchVerifyPasswordModal()">
+                  Wallet Private Key
+                </a>
+                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                   @click="launchSecurityModal()">Security</a>
+                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                   @click="logout()">Logout</a>
+              </div>
             </div>
           </div>
         </div>
@@ -97,6 +105,8 @@
              class="text-white px-3 py-2 block rounded-md text-sm font-medium">
             Buy / Sell
           </a>
+          <a v-if="isLoggedIn" class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
+             @click="launchSecurityModal()">Security</a>
           <a class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
              @click="logout()">Logout</a>
         </template>
@@ -144,6 +154,14 @@ export default {
           address: this.wallets[0].address
         })
       }
+    },
+    launchVerifyPasswordModal() {
+      this.emitter.emit('verify-password', {
+        address: null
+      })
+    },
+    launchSecurityModal() {
+      this.emitter.emit('show-mnemonics', {})
     },
     logout() {
       let state = this.$store.state
