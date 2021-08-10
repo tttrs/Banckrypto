@@ -63,22 +63,15 @@
       </table>
     </div>
   </div>
-  <verify-password></verify-password>
-  <show-private-key></show-private-key>
-  <show-mnemonics></show-mnemonics>
 </template>
 
 <script>
 import axios from "axios"
 import {mapGetters} from "vuex"
-import VerifyPassword from "@/components/modals/VerifyPassword"
-import ShowPrivateKey from "@/components/modals/ShowPrivateKey"
-import ShowMnemonics from "@/components/modals/ShowMenomics"
 import {SAVE_WALLETS} from "@/store/keys"
 
 export default {
   name: "Dashboard",
-  components: {ShowMnemonics, ShowPrivateKey, VerifyPassword},
   data() {
     return {
       currency: process.env.VUE_APP_CURRENCY,

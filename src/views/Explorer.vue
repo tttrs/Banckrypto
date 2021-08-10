@@ -37,7 +37,9 @@ export default {
   data() {
     return {
       baseUrl: process.env.VUE_APP_EXPLORER_URL,
-      blocks: []
+      blocks: [],
+      socket: null,
+      isCloseSocket: false
     }
   },
   methods: {
@@ -54,10 +56,31 @@ export default {
       }).catch(error => {
         console.log(error)
       })
+    },
+    initSocket() {
+      this.socket = new WebSocket('ws://localhost:8080/coinectar/updates')
+      const self = this
+      this.socket.onmessage = (event) => {
+        if (event && event.data) {
+          const data = JSON.parse(event.data)
+          self.blocks.splice(0, 0, data)
+        }
+      }
+      this.socket.onclose = () => {
+        if (!self.isCloseSocket) {
+          self.initSocket()
+        }
+      }
     }
   },
   mounted() {
     this.getLatestBlocks()
+    this.initSocket()
+  },
+  unmounted() {
+    if (this.socket) {
+      this.isCloseSocket = true
+    }
   }
 }
 </script>

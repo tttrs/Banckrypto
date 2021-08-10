@@ -7,27 +7,27 @@
     </template>
     <template v-if="blocks.length > 0">
       <h1 class="text-lg font-bold">Blocks</h1>
-      <blocks :blocks="blocks"></blocks>
+      <latest-blocks :blocks="blocks"></latest-blocks>
     </template>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Blocks from "../components/LatestBlocks"
 import BlockSummary from "../components/BlockSummary"
 import Search from "../components/Search"
 import Loader from "../components/Loader";
+import LatestBlocks from "@/components/LatestBlocks";
 
 export default {
   name: "Blocks",
-  components: {Loader, Search, BlockSummary, Blocks},
+  components: {LatestBlocks, Loader, Search, BlockSummary},
   data() {
     return {
       baseUrl: process.env.VUE_APP_EXPLORER_URL,
       blocks: [],
       block: null,
-      page: 1,
+      page: "1",
       isLoading: true
     }
   },
@@ -48,7 +48,8 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        this.blocks = response.data.result
+        this.blocks = response.data.result.filter(b => b.index !== 0)
+        this.block = null
         this.isLoading = false
       }).catch(error => {
         this.isLoading = false
@@ -84,6 +85,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

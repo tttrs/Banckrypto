@@ -89,7 +89,7 @@ export default {
       }).then(response => {
         this.isLoading = false
         if (response.data.error === null) {
-          if (response.data.result !== null) {
+          if (response.data.result !== null && response.data.result.length !== 0) {
             const data = response.data.result
             this.$store.commit(SET_IS_LOGGED_IN, true)
             this.$store.commit(SAVE_WALLET_ID, values.walletId)

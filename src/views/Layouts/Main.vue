@@ -58,7 +58,13 @@
                   </a>
                 </template>
               </div>
-              <div>
+              <div class="flex items-center">
+                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                  @click="refreshBalance()">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </a>
                 <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                    @click="launchVerifyPasswordModal()">
                   Wallet Private Key
@@ -106,6 +112,10 @@
             Buy / Sell
           </a>
           <a v-if="isLoggedIn" class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
+             @click="launchVerifyPasswordModal()">
+            Wallet Private Key
+          </a>
+          <a v-if="isLoggedIn" class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
              @click="launchSecurityModal()">Security</a>
           <a class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
              @click="logout()">Logout</a>
@@ -118,16 +128,31 @@
   </div>
   <send-crypto></send-crypto>
   <request-crypto></request-crypto>
+  <verify-password></verify-password>
+  <show-mnemonics></show-mnemonics>
+  <show-private-key></show-private-key>
 </template>
 
 <script>
 import {mapGetters} from "vuex"
 import RequestCrypto from '@/components/modals/RequestCrypto.vue'
 import SendCrypto from '@/components/modals/SendCrypto.vue'
+import VerifyPassword from "@/components/modals/VerifyPassword";
+import ShowMnemonics from "@/components/modals/ShowMenomics";
+import ShowPrivateKey from "@/components/modals/ShowPrivateKey";
+import axios from "axios";
+import {SAVE_WALLETS} from "@/store/keys";
 
 export default {
   name: "Main",
-  components: {SendCrypto, RequestCrypto},
+  components: {ShowPrivateKey, ShowMnemonics, VerifyPassword, SendCrypto, RequestCrypto},
+  data() {
+    return {
+      baseUrl: process.env.VUE_APP_WALLET_URL,
+      socket: null,
+      isCloseSocket: false
+    }
+  },
   computed: {
     ...mapGetters([
       'token',
@@ -145,6 +170,25 @@ export default {
     }
   },
   methods: {
+    refreshBalance() {
+      axios.post(`${this.baseUrl}`, JSON.stringify({
+        method: 'loadwallet',
+        params: null
+      }), {
+        headers: {
+          Authorization: 'Basic ' + this.token
+        }
+      }).then(response => {
+        if (response.data.error === null) {
+          const wallets = response.data.result
+          this.$store.commit(SAVE_WALLETS, wallets)
+        } else {
+          this.$toast.error(response.data.error)
+        }
+      }).catch(error => {
+        this.$toast.error(error.response.data.error)
+      })
+    },
     launchSendCryptoModal() {
       this.emitter.emit('send-crypto', {})
     },
@@ -177,6 +221,41 @@ export default {
       });
       this.$store.replaceState(newState);
       this.$router.push({name: 'login'})
+    },
+    initSocket() {
+      this.socket = new WebSocket('ws://localhost:8080/coinectar/updates')
+      const self = this
+      this.socket.onmessage = (event) => {
+        if (event && event.data) {
+          const data = JSON.parse(event.data)
+          if (self.wallets) {
+            let isRefreshBalance = false
+            self.wallets.forEach(w => {
+              data.transactions.forEach(t => {
+                if (w.address === t.to || w.address === t.from) {
+                  isRefreshBalance = true
+                }
+              })
+            })
+            if (isRefreshBalance) {
+              self.refreshBalance()
+            }
+          }
+        }
+      }
+      this.socket.onclose = () => {
+        if (!self.isCloseSocket) {
+          self.initSocket()
+        }
+      }
+    }
+  },
+  mounted() {
+    this.initSocket()
+  },
+  unmounted() {
+    if (this.socket) {
+      this.isCloseSocket = true
     }
   }
 }

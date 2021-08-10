@@ -87,8 +87,8 @@ export default {
     }
   },
   mounted() {
-    this.getPassPhrase()
     this.emitter.on('show-mnemonics', (args) => {
+      this.getPassPhrase()
       this.open = true
       if (this.mnemonics.length === 0 && typeof args.mnemonics !== undefined) {
         this.mnemonics = args.mnemonics ? args.mnemonics.split(' ') : []
