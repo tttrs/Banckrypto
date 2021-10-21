@@ -107,7 +107,7 @@
              class="text-white px-3 py-2 block rounded-md text-sm font-medium">
             Request
           </a>
-          <a href="javascript:void(0)"
+          <a target="_blank" href="https://cointopay.com"
              class="text-white px-3 py-2 block rounded-md text-sm font-medium">
             Buy / Sell
           </a>
@@ -223,7 +223,7 @@ export default {
       this.$router.push({name: 'login'})
     },
     initSocket() {
-      this.socket = new WebSocket('ws://localhost:8080/coinectar/updates')
+      this.socket = new WebSocket('wss://artemis.cointopay.com/coinectar/updates')
       const self = this
       this.socket.onmessage = (event) => {
         if (event && event.data) {

@@ -58,7 +58,7 @@ export default {
       })
     },
     initSocket() {
-      this.socket = new WebSocket('ws://localhost:8080/coinectar/updates')
+      this.socket = new WebSocket('wss://artemis.cointopay.com/coinectar/updates')
       const self = this
       this.socket.onmessage = (event) => {
         if (event && event.data) {
