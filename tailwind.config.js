@@ -5,6 +5,10 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Roboto Mono']
+      },
+      colors: {
+        'green-500': '#30c26d',
+        'blue-500': '#2b7cff'
       }
     },
   },
