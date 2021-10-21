@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-blue-700 fixed w-full top-0 z-10">
+  <nav class=" bg-gray-200 shadow fixed w-full top-0 z-10">
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -23,7 +23,7 @@
             <img class="block lg:hidden h-8 w-auto" src="https://cointopay.com/assets/img/logo.e3ab5038.svg"
                  alt="Cointopay">
             <img class="hidden lg:block h-8 w-auto"
-                 src="https://cointopay.com/assets/img/logo.e3ab5038.svg" alt="Cointopay">
+                 src="/logo.png" alt="Cointopay">
           </div>
           <div class="hidden sm:block sm:ml-6 flex-1">
             <div class="flex items-center justify-between">
@@ -31,47 +31,47 @@
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                 <template v-if="!isLoggedIn">
                   <router-link tag="a" :to="{ name: 'explorer' }"
-                               class="text-white px-3 py-2 rounded-md text-sm font-medium">
+                               class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium">
                     Explorer
                   </router-link>
                   <router-link tag="a" :to="{ name: 'wallet' }"
-                               class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                               class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium">
                     Wallet
                   </router-link>
                 </template>
                 <template v-if="isLoggedIn">
                   <router-link tag="a" :to="{ name: 'home' }"
-                               class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:text-white active:text-white">
+                               class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500 active:text-green-500">
                     Home
                   </router-link>
                   <a href="javascript:void(0)" @click="launchSendCryptoModal()"
-                     class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:text-white">
+                     class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500">
                     Send
                   </a>
                   <a href="javascript:void(0)" @click="launchRequestCryptoModal()"
-                     class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:text-white">
+                     class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500">
                     Request
                   </a>
                   <a href="javascript:void(0)"
-                     class="text-gray-300 px-3 py-2 rounded-md text-sm font-medium hover:text-white">
+                     class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500">
                     Buy / Sell
                   </a>
                 </template>
               </div>
               <div class="flex items-center">
-                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                <a v-if="isLoggedIn" class="text-green-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                   @click="refreshBalance()">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
                 </a>
-                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                <a v-if="isLoggedIn" class="text-gray-700 hover:text-green-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                    @click="launchVerifyPasswordModal()">
                   Wallet Private Key
                 </a>
-                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                <a v-if="isLoggedIn" class="text-gray-700 hover:text-green-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                    @click="launchSecurityModal()">Security</a>
-                <a v-if="isLoggedIn" class="text-white px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                <a v-if="isLoggedIn" class="text-gray-700 hover:text-green-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
                    @click="logout()">Logout</a>
               </div>
             </div>
@@ -86,11 +86,11 @@
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <template v-if="!isLoggedIn">
           <router-link tag="a" :to="{ name: 'explorer' }"
-                       class="text-white px-3 py-2 block rounded-md text-sm font-medium">
+                       class="text-gray-700 hover:text-green-500 px-3 py-2 block rounded-md text-sm font-medium">
             Explorer
           </router-link>
           <router-link tag="a" :to="{ name: 'wallet' }"
-                       class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">
+                       class="text-gray-700 hover:bg-gray-700 hover:text-green-500 block px-3 py-2 rounded-md text-base font-medium">
             Wallet
           </router-link>
         </template>
@@ -261,9 +261,4 @@ export default {
 }
 </script>
 
-<style scoped>
-.router-link-active,
-.router-link-exact-active {
-  color: white;
-}
-</style>
+<style scoped></style>

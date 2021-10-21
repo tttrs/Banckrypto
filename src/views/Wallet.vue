@@ -1,22 +1,21 @@
 <template>
-  <div class="bg-blue-50 mx-auto p-12">
+  <div class="bg-gray-50 mx-auto p-12">
     <div class="grid grid-cols-2 gap-4">
       <div class="col-span-2 lg:col-span-1">
         <h1 class="text-2xl font-bold text-gray-600 mb-4">EURx Crypto Wallet</h1>
-        <p class="text-sm font-normal text-gray-600 mb-24">Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Donec vehicula dictum mollis. Fusce venenatis nunc id mi condimentum, a placerat orci semper. Sed sit amet
-          mauris convallis, viverra risus ut, auctor dolor. Etiam sed ipsum vel libero tempus malesuada. Vestibulum
-          euismod quam mi, quis convallis ex faucibus id. Nunc efficitur vehicula neque, a pharetra elit facilisis in.
-          Duis finibus nunc vitae dignissim posuere. Nam aliquam, augue ac dictum blandit, dui urna feugiat nunc, at
-          mollis arcu nunc at diam. Aliquam porttitor non arcu nec volutpat. Quisque elementum luctus velit, id lobortis
-          magna consequat sit amet. In dignissim congue nisi, et facilisis sem convallis eget.</p>
+        <p class="text-sm font-normal text-gray-600 mb-24">This crypto wallet is the first hybrid blockchain bank
+          wallet. You can transfer your EURx currency via the blockchain but you can also buy/sell trade it on
+          cointopay.com. It is a stable currency which is being sold for one Euro per coin, however it has a limited
+          supply of 100000000 units and can be traded on reflextrader.com. You can also import your EURx and send it via
+          your verified bank account. You may also download this wallet and run it yourself. Welcome to the
+          decentralized future!</p>
         <div>
           <router-link tag="a" :to="{ name: 'signup' }"
                        class="bg-white hover:bg-gray-100 text-gray-700 font-bold py-3 px-4 rounded mr-2 shadow">
             Getting Started
           </router-link>
           <router-link tag="a" :to="{ name: 'login' }"
-                       class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded shadow">
+                       class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded shadow">
             Login
           </router-link>
         </div>
@@ -84,7 +83,7 @@
             </div>
             <div class="flex items-center justify-between">
               <button :disabled="isLoading" type="submit"
-                      class="bg-blue-700 hover:bg-blue-900 text-white font-bold py-3 px-4 rounded w-full">
+                      class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded w-full">
                 <svg class="animate-spin mx-auto h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
                      fill="none" viewBox="0 0 24 24" v-if="isLoading">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

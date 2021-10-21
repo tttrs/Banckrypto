@@ -4,4 +4,8 @@
 .form-input {
   @apply border-gray-300;
 }
+.router-link-active,
+.router-link-exact-active {
+  @apply text-green-500;
+}
 @tailwind utilities;

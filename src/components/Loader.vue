@@ -1,7 +1,6 @@
 <template>
   <div v-if="loading"
-      class="w-64 h-12 shadow absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center justify-center"
-    style="background-color: #446bb3">
+      class="w-64 h-12 shadow absolute bottom-0 left-1/2 transform -translate-x-1/2 flex items-center justify-center bg-green-500">
     <svg class="w-12 h-4" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="#fff">
       <circle cx="15" cy="15" r="15">
         <animate attributeName="r" from="15" to="15"
