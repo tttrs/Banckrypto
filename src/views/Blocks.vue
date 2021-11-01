@@ -5,7 +5,7 @@
     <template v-if="block">
       <block-summary :block="block"></block-summary>
     </template>
-    <template v-if="blocks.length > 0">
+    <template v-if="blocks.length > 0 && block === null">
       <h1 class="text-lg font-bold">Blocks</h1>
       <latest-blocks :blocks="blocks"></latest-blocks>
     </template>
