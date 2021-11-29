@@ -20,10 +20,7 @@
         </div>
         <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex-shrink-0 flex items-center">
-            <img class="block lg:hidden h-8 w-auto" src="https://cointopay.com/assets/img/logo.e3ab5038.svg"
-                 alt="Cointopay">
-            <img class="hidden lg:block h-8 w-auto"
-                 src="/logo.png" alt="Cointopay">
+            <img class="h-8 w-auto" src="/logo.png" alt="Banckrypto">
           </div>
           <div class="hidden sm:block sm:ml-6 flex-1">
             <div class="flex items-center justify-between">

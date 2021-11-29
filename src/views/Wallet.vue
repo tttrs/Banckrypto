@@ -116,7 +116,7 @@ export default {
   data() {
     return {
       baseUrl: process.env.VUE_APP_WALLET_URL,
-      opt: 'mnemonics',
+      opt: 'key',
       mnemonics: [],
       isLoading: false
     }
