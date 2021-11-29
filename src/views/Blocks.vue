@@ -8,26 +8,28 @@
     <template v-if="blocks.length > 0 && block === null">
       <h1 class="text-lg font-bold">Blocks</h1>
       <latest-blocks :blocks="blocks"></latest-blocks>
+      <pagination :meta="meta" @pageChanged="getPaginatedBlocks"></pagination>
     </template>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from "axios"
 import BlockSummary from "../components/BlockSummary"
 import Search from "../components/Search"
-import Loader from "../components/Loader";
-import LatestBlocks from "@/components/LatestBlocks";
+import Loader from "../components/Loader"
+import LatestBlocks from "@/components/LatestBlocks"
+import Pagination from "@/components/Pagination"
 
 export default {
   name: "Blocks",
-  components: {LatestBlocks, Loader, Search, BlockSummary},
+  components: { Pagination, LatestBlocks, Loader, Search, BlockSummary},
   data() {
     return {
       baseUrl: process.env.VUE_APP_EXPLORER_URL,
       blocks: [],
       block: null,
-      page: "1",
+      meta: null,
       isLoading: true
     }
   },
@@ -39,16 +41,18 @@ export default {
     }
   },
   methods: {
-    getPaginatedBlocks() {
+    getPaginatedBlocks(page = 1) {
+      this.isLoading = true
       axios.post(`${this.baseUrl}`, JSON.stringify({
-        method: 'latestblocks',
-        params: [this.page]
+        method: 'blocks',
+        params: [page.toString()]
       }), {
         headers: {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        this.blocks = response.data.result.filter(b => b.index !== 0)
+        this.blocks = response.data.result.blocks.filter(b => b.index !== 0)
+        this.meta = response.data.result.meta
         this.block = null
         this.isLoading = false
       }).catch(error => {
