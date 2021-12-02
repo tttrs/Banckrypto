@@ -1,4 +1,7 @@
-# Banckrypto
+# Banckrypto wallet and explorer
+This is the front end that you can run on your NGINX or APACHE etc. webserver.
+Just update the ENV file in case you want to connect to dedicated banckrypto node.
+The native currency is EURx
 
 ## Project setup
 ```
