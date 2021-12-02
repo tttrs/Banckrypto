@@ -1,4 +1,4 @@
-# explorer
+# Banckrypto
 
 ## Project setup
 ```
