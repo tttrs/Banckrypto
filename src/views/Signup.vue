@@ -96,7 +96,7 @@ export default {
       this.isLoading = true
       axios.post(`${this.baseUrl}`, JSON.stringify({
         method: 'createwallet',
-        params: [values.password]
+        params: [values.password, values.email]
       })).then(response => {
         this.isLoading = false
         if (response.data.error === null) {

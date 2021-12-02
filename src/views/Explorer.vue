@@ -52,9 +52,7 @@ export default {
           'Content-Type': 'application/json'
         }
       }).then(response => {
-        console.log(response.data.result)
         this.blocks = response.data.result.filter(b => b.index !== 0)
-        console.log(this.blocks)
       }).catch(error => {
         console.log(error)
       })

@@ -23,7 +23,6 @@
       </tr>
       </tbody>
     </table>
-    <pagination></pagination>
   </div>
 </template>
 
