@@ -1,7 +1,7 @@
 <template>
   <div class="my-4">
     <div class="lg:flex align-items justify-between">
-      <h1 class="text-lg font-bold mb-2 lg:mb-0">Wallets & Addresses</h1>
+      <h1 class="text-lg font-bold mb-2 lg:mb-0">Wallet Addresses</h1>
       <div class="flex align-items justify-between">
         <router-link tag="a" :to="{ name: 'transactions' }"
           class="rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm mr-2">

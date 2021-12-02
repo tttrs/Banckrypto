@@ -19,6 +19,9 @@
             Login
           </router-link>
         </div>
+
+        <a href="/coinectar.war"></a>
+
       </div>
       <div class="hidden lg:block lg:col-span-1">
         <div class="ml-auto w-full max-w-md px-6 py-4 bg-white shadow overflow-hidden sm:rounded-lg">
