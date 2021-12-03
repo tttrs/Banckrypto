@@ -6,7 +6,8 @@
           <!-- Mobile menu button-->
           <button aria-controls="mobile-menu"
                   aria-expanded="false"
-                  class="inline-flex items-center justify-center p-2 rounded-md text-blue-400 hover:text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" type="button">
+                  class="inline-flex items-center justify-center p-2 rounded-md text-blue-400 hover:text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  type="button">
             <span class="sr-only">Open main menu</span>
             <svg aria-hidden="true" class="block h-6 w-6" fill="none" stroke="currentColor"
                  viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -20,7 +21,7 @@
         </div>
         <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
           <div class="flex-shrink-0 flex items-center">
-            <router-link tag="a" :to="{name: 'explorer'}">
+            <router-link :to="{name: 'explorer'}" tag="a">
               <img alt="Banckrypto" class="h-8 w-auto" src="/logo.png">
             </router-link>
           </div>
@@ -29,30 +30,35 @@
               <div class="flex space-x-4">
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                 <template v-if="!isLoggedIn">
-                  <router-link :to="{ name: 'explorer' }" class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium"
+                  <router-link :to="{ name: 'explorer' }"
+                               class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium"
                                tag="a">
                     Explorer
                   </router-link>
-                  <router-link :to="{ name: 'wallet' }" class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium"
+                  <router-link :to="{ name: 'wallet' }"
+                               class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium"
                                tag="a">
                     Wallet
                   </router-link>
                 </template>
                 <template v-if="isLoggedIn">
-                  <router-link :to="{ name: 'home' }" class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500 active:text-green-500"
+                  <router-link :to="{ name: 'home' }"
+                               class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500 active:text-green-500"
                                tag="a">
                     Home
                   </router-link>
-                  <a class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500" href="javascript:void(0)"
+                  <a class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500"
+                     href="javascript:void(0)"
                      @click="launchSendCryptoModal()">
                     Send
                   </a>
-                  <a class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500" href="javascript:void(0)"
+                  <a class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500"
+                     href="javascript:void(0)"
                      @click="launchRequestCryptoModal()">
                     Request
                   </a>
                   <a class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500"
-                     target="_blank" href="https://cointopay.com">
+                     href="https://cointopay.com" target="_blank">
                     Buy / Sell
                   </a>
                 </template>
@@ -62,8 +68,10 @@
                    @click="refreshBalance()">
                   <svg class="h-6 w-6 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                        xmlns="http://www.w3.org/2000/svg">
-                    <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke-linecap="round" stroke-linejoin="round"
-                          stroke-width="2"/>
+                    <path
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      stroke-linecap="round" stroke-linejoin="round"
+                      stroke-width="2"/>
                   </svg>
                 </a>
                 <a v-if="isLoggedIn"
@@ -89,11 +97,13 @@
       <div class="px-2 pt-2 pb-3 space-y-1">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <template v-if="!isLoggedIn">
-          <router-link :to="{ name: 'explorer' }" class="text-gray-700 hover:text-green-500 px-3 py-2 block rounded-md text-sm font-medium"
+          <router-link :to="{ name: 'explorer' }"
+                       class="text-gray-700 hover:text-green-500 px-3 py-2 block rounded-md text-sm font-medium"
                        tag="a">
             Explorer
           </router-link>
-          <router-link :to="{ name: 'wallet' }" class="text-gray-700 hover:bg-gray-700 hover:text-green-500 block px-3 py-2 rounded-md text-base font-medium"
+          <router-link :to="{ name: 'wallet' }"
+                       class="text-gray-700 hover:bg-gray-700 hover:text-green-500 block px-3 py-2 rounded-md text-base font-medium"
                        tag="a">
             Wallet
           </router-link>
@@ -128,8 +138,12 @@
     </div>
   </nav>
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mb-4">
-    <router-view/>
+    <div style="min-height: calc(100vh - 165px)">
+      <router-view/>
+    </div>
   </div>
+  <Footer></Footer>
+
   <send-crypto></send-crypto>
   <request-crypto></request-crypto>
   <verify-password></verify-password>
@@ -146,10 +160,11 @@ import ShowMnemonics from "@/components/modals/ShowMenomics";
 import ShowPrivateKey from "@/components/modals/ShowPrivateKey";
 import axios from "axios";
 import {SAVE_WALLETS} from "@/store/keys";
+import Footer from "./Partials/Footer"
 
 export default {
   name: "Main",
-  components: {ShowPrivateKey, ShowMnemonics, VerifyPassword, SendCrypto, RequestCrypto},
+  components: {Footer, ShowPrivateKey, ShowMnemonics, VerifyPassword, SendCrypto, RequestCrypto},
   data() {
     return {
       baseUrl: process.env.VUE_APP_WALLET_URL,

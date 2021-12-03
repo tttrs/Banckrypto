@@ -1,74 +1,79 @@
 <template>
-  <div class="mx-auto w-full max-w-md mt-6 px-6 py-4 bg-white shadow overflow-hidden sm:rounded-lg">
-    <h1 class="text-xl font-bold mb-4">Wallet</h1>
-    <Form @submit="submit" :validation-schema="schema">
-      <div class="mb-4">
-        <div class="flex items-center justify-between">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-            Email Address
-          </label>
-          <div class="text-red-700 text-sm">
-            <ErrorMessage name="email"/>
+  <div class="pt-6">
+    <div class="mx-auto w-full max-w-md px-6 py-4 bg-white shadow overflow-hidden sm:rounded-lg">
+      <h1 class="text-xl font-bold mb-4">Wallet</h1>
+      <Form :validation-schema="schema" @submit="submit">
+        <div class="mb-4">
+          <div class="flex items-center justify-between">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+              Email Address
+            </label>
+            <div class="text-red-700 text-sm">
+              <ErrorMessage name="email"/>
+            </div>
           </div>
+          <Field id="email" class="form-input w-full rounded" name="email"/>
         </div>
-        <Field name="email" id="email" class="form-input w-full rounded"/>
-      </div>
 
-      <div class="mb-4">
-        <div class="flex items-center justify-between">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-            Password
-          </label>
-          <div class="text-red-700 text-sm">
-            <ErrorMessage name="password"/>
+        <div class="mb-4">
+          <div class="flex items-center justify-between">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+              Password
+            </label>
+            <div class="text-red-700 text-sm">
+              <ErrorMessage name="password"/>
+            </div>
           </div>
+          <Field id="password" class="form-input w-full rounded" name="password" type="password"/>
         </div>
-        <Field name="password" type="password" id="password" class="form-input w-full rounded"/>
-      </div>
 
-      <div class="mb-4">
-        <div class="flex items-center justify-between">
-          <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm">
-            Confirm Password
-          </label>
-          <div class="text-red-700 text-sm">
-            <ErrorMessage name="confirm"/>
+        <div class="mb-4">
+          <div class="flex items-center justify-between">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm">
+              Confirm Password
+            </label>
+            <div class="text-red-700 text-sm">
+              <ErrorMessage name="confirm"/>
+            </div>
           </div>
+          <Field id="confirm" class="form-input w-full rounded" name="confirm" type="password"/>
         </div>
-        <Field name="confirm" type="password" id="confirm" class="form-input w-full rounded"/>
-      </div>
 
-      <div class="mb-4">
-        <p class="text-xs">
-          By creating an account, you agree to Cointopay’s
-          <a href="https://cointopay.com/terms" target="_blank" class="text-blue-700 hover:text-blue-900 hover:underline">Terms of Service</a> &
-          <a href="https://cointopay.com/terms" target="_blank" class="text-blue-700 hover:text-blue-900 hover:underline">Privacy Policy</a>.
-        </p>
-      </div>
+        <div class="mb-4">
+          <p class="text-xs">
+            By creating an account, you agree to Cointopay’s
+            <a class="text-blue-700 hover:text-blue-900 hover:underline" href="https://cointopay.com/terms"
+               target="_blank">Terms of Service</a> &
+            <a class="text-blue-700 hover:text-blue-900 hover:underline" href="https://cointopay.com/terms"
+               target="_blank">Privacy Policy</a>.
+          </p>
+        </div>
 
-      <div class="flex items-center justify-between">
-        <button :disabled="isLoading" type="submit"
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded w-full">
-          <svg class="animate-spin mx-auto h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
-               fill="none" viewBox="0 0 24 24" v-if="isLoading">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <span v-if="!isLoading">Create Wallet</span>
-        </button>
-      </div>
-    </Form>
-  </div>
-  <div class="text-center mt-4">
-    <router-link tag="a" :to="{ name: 'login' }" class="text-gray-700 text-bold">
-      Already have a wallet? Sign In
-    </router-link>
+        <div class="flex items-center justify-between">
+          <button :disabled="isLoading" class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded w-full"
+                  type="submit">
+            <svg v-if="isLoading" class="animate-spin mx-auto h-5 w-5 text-white"
+                 fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    fill="currentColor"></path>
+            </svg>
+            <span v-if="!isLoading">Create Wallet</span>
+          </button>
+        </div>
+      </Form>
+    </div>
+    <div class="text-center mt-4">
+      <router-link :to="{ name: 'login' }" class="text-gray-700 text-bold" tag="a">
+        Already have a wallet? Sign In
+      </router-link>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import {Field, Form, ErrorMessage} from 'vee-validate'
+import {ErrorMessage, Field, Form} from 'vee-validate'
 import * as yup from 'yup'
 import {SAVE_TOKEN, SAVE_WALLET_ID, SAVE_WALLETS, SET_IS_LOGGED_IN, SET_MNEMONICS} from "@/store/keys";
 
