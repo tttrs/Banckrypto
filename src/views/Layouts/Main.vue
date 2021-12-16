@@ -29,12 +29,12 @@
             <div class="flex items-center justify-between">
               <div class="flex space-x-4">
                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                <router-link :to="{ name: 'explorer' }"
+                             class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium"
+                             tag="a">
+                  Explorer
+                </router-link>
                 <template v-if="!isLoggedIn">
-                  <router-link :to="{ name: 'explorer' }"
-                               class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium"
-                               tag="a">
-                    Explorer
-                  </router-link>
                   <router-link :to="{ name: 'wallet' }"
                                class="text-gray-700 hover:text-green-500 active:text-green-500 px-3 py-2 rounded-md text-sm font-medium"
                                tag="a">
@@ -45,7 +45,7 @@
                   <router-link :to="{ name: 'home' }"
                                class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500 active:text-green-500"
                                tag="a">
-                    Home
+                    Wallet
                   </router-link>
                   <a class="text-gray-700 px-3 py-2 rounded-md text-sm font-medium hover:text-green-500"
                      href="javascript:void(0)"
@@ -65,6 +65,7 @@
               </div>
               <div class="flex items-center">
                 <a v-if="isLoggedIn" class="text-green-500 px-3 py-2 rounded-md text-sm font-medium cursor-pointer"
+                   :class="{'animate-spin': isRefreshing}"
                    @click="refreshBalance()">
                   <svg class="h-6 w-6 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                        xmlns="http://www.w3.org/2000/svg">
@@ -96,12 +97,12 @@
     <div id="mobile-menu" class="sm:hidden">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+        <router-link :to="{ name: 'explorer' }"
+                     class="text-gray-700 hover:text-green-500 px-3 py-2 block rounded-md text-sm font-medium"
+                     tag="a">
+          Explorer
+        </router-link>
         <template v-if="!isLoggedIn">
-          <router-link :to="{ name: 'explorer' }"
-                       class="text-gray-700 hover:text-green-500 px-3 py-2 block rounded-md text-sm font-medium"
-                       tag="a">
-            Explorer
-          </router-link>
           <router-link :to="{ name: 'wallet' }"
                        class="text-gray-700 hover:bg-gray-700 hover:text-green-500 block px-3 py-2 rounded-md text-base font-medium"
                        tag="a">
@@ -111,7 +112,7 @@
         <template v-if="isLoggedIn">
           <router-link :to="{ name: 'home' }" class="text-white px-3 py-2 block rounded-md text-sm font-medium"
                        tag="a">
-            Home
+            Wallet
           </router-link>
           <a class="text-white px-3 py-2 block rounded-md text-sm font-medium" href="javascript:void(0)"
              @click="launchSendCryptoModal()">
@@ -152,14 +153,14 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex"
+import { mapGetters } from "vuex"
 import RequestCrypto from '@/components/modals/RequestCrypto.vue'
 import SendCrypto from '@/components/modals/SendCrypto.vue'
 import VerifyPassword from "@/components/modals/VerifyPassword";
 import ShowMnemonics from "@/components/modals/ShowMenomics";
 import ShowPrivateKey from "@/components/modals/ShowPrivateKey";
 import axios from "axios";
-import {SAVE_WALLETS} from "@/store/keys";
+import { SAVE_WALLETS } from "@/store/keys";
 import Footer from "./Partials/Footer"
 
 export default {
@@ -170,7 +171,8 @@ export default {
       baseUrl: process.env.VUE_APP_WALLET_URL,
       socket: null,
       socketURL: process.env.VUE_APP_SOCKET_URL,
-      isCloseSocket: false
+      isCloseSocket: false,
+      isRefreshing: false
     }
   },
   computed: {
@@ -191,6 +193,7 @@ export default {
   },
   methods: {
     refreshBalance() {
+      this.isRefreshing = true
       axios.post(`${this.baseUrl}`, JSON.stringify({
         method: 'loadwallet',
         params: null
@@ -199,6 +202,7 @@ export default {
           Authorization: 'Basic ' + this.token
         }
       }).then(response => {
+        this.isRefreshing = false
         if (response.data.error === null) {
           const wallets = response.data.result
           this.$store.commit(SAVE_WALLETS, wallets)
@@ -206,6 +210,7 @@ export default {
           this.$toast.error(response.data.error)
         }
       }).catch(error => {
+        this.isRefreshing = false
         this.$toast.error(error.response.data.error)
       })
     },

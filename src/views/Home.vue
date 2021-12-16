@@ -67,8 +67,8 @@
 
 <script>
 import axios from "axios"
-import {mapGetters} from "vuex"
-import {SAVE_WALLETS} from "@/store/keys"
+import { mapGetters } from "vuex"
+import { FIRST_LOGIN, SAVE_WALLETS } from "@/store/keys"
 
 export default {
   name: "Dashboard",
@@ -84,7 +84,8 @@ export default {
       'walletId',
       'token',
       'wallets',
-      'mnemonics'
+      'mnemonics',
+      'isFirstLogin'
     ])
   },
   methods: {
@@ -145,10 +146,11 @@ export default {
     }
   },
   mounted() {
-    if (this.mnemonics) {
+    if (this.mnemonics && this.isFirstLogin) {
       this.emitter.emit('show-mnemonics', {
         mnemonics: this.mnemonics
       })
+      this.$store.commit(FIRST_LOGIN, false)
     }
   }
 }

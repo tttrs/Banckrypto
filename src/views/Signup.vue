@@ -73,9 +73,9 @@
 
 <script>
 import axios from 'axios'
-import {ErrorMessage, Field, Form} from 'vee-validate'
+import { ErrorMessage, Field, Form } from 'vee-validate'
 import * as yup from 'yup'
-import {SAVE_TOKEN, SAVE_WALLET_ID, SAVE_WALLETS, SET_IS_LOGGED_IN, SET_MNEMONICS} from "@/store/keys";
+import { FIRST_LOGIN, SAVE_TOKEN, SAVE_WALLET_ID, SAVE_WALLETS, SET_IS_LOGGED_IN, SET_MNEMONICS } from "@/store/keys"
 
 export default {
   name: "Signup",
@@ -120,7 +120,8 @@ export default {
           ]
           this.$store.commit(SAVE_WALLETS, wallets)
           this.$store.commit(SET_MNEMONICS, data.mnemonics)
-          this.$router.push({name: 'home'})
+          this.$store.commit(FIRST_LOGIN, true)
+          this.$router.push({ name: 'home' })
         } else {
           this.$toast.error(response.data.error)
         }
