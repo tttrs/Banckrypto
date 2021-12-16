@@ -114,7 +114,7 @@ export default {
           this.$store.commit(SAVE_WALLETS, wallets)
           this.isLoading = false
           // Get wallets details
-          this.getWalletsBalance()
+          // this.getWalletsBalance()
         } else {
           this.isLoading = false
           this.$toast.error(response.data.error)

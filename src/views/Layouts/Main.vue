@@ -169,6 +169,7 @@ export default {
     return {
       baseUrl: process.env.VUE_APP_WALLET_URL,
       socket: null,
+      socketURL: process.env.VUE_APP_SOCKET_URL,
       isCloseSocket: false
     }
   },
@@ -242,7 +243,7 @@ export default {
       this.$router.push({name: 'login'})
     },
     initSocket() {
-      this.socket = new WebSocket('wss://artemis.cointopay.com/coinectar/updates')
+      this.socket = new WebSocket(this.socketURL)
       const self = this
       this.socket.onmessage = (event) => {
         if (event && event.data) {
