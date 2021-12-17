@@ -2,13 +2,13 @@
   <div class="my-4">
     <div class="lg:flex align-items justify-between">
       <h1 class="text-lg font-bold mb-2 lg:mb-0">Wallet Addresses</h1>
-      <div class="flex align-items justify-between">
+      <div class="block lg:flex align-items justify-between">
         <router-link tag="a" :to="{ name: 'transactions' }"
-          class="rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm mr-2">
-          Transactions
+          class="mb-2 inline-block lg:mb-0 whitespace-nowrap rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm mr-2">
+          My Transactions
         </router-link>
         <button :disabled="isLoading" @click="generateNextAddress()"
-                class="w-full inline-flex items-center justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm">
+                class="w-auto lg:w-full inline-flex items-center justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-500 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm">
           <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
                fill="none" viewBox="0 0 24 24" v-if="isLoading">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

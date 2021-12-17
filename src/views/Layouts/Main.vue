@@ -5,7 +5,7 @@
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
           <!-- Mobile menu button-->
           <button aria-controls="mobile-menu"
-                  aria-expanded="false"
+                  aria-expanded="false" @click="open = !open"
                   class="inline-flex items-center justify-center p-2 rounded-md text-blue-400 hover:text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
                   type="button">
             <span class="sr-only">Open main menu</span>
@@ -94,45 +94,45 @@
     </div>
 
     <!-- Mobile menu, show/hide based on menu state. -->
-    <div id="mobile-menu" class="sm:hidden">
+    <div v-if="open" id="mobile-menu" class="sm:hidden">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-        <router-link :to="{ name: 'explorer' }"
+        <router-link :to="{ name: 'explorer' }" @click="open = false"
                      class="text-gray-700 hover:text-green-500 px-3 py-2 block rounded-md text-sm font-medium"
                      tag="a">
           Explorer
         </router-link>
         <template v-if="!isLoggedIn">
-          <router-link :to="{ name: 'wallet' }"
+          <router-link :to="{ name: 'wallet' }" @click="open = false"
                        class="text-gray-700 hover:bg-gray-700 hover:text-green-500 block px-3 py-2 rounded-md text-base font-medium"
                        tag="a">
             Wallet
           </router-link>
         </template>
         <template v-if="isLoggedIn">
-          <router-link :to="{ name: 'home' }" class="text-white px-3 py-2 block rounded-md text-sm font-medium"
-                       tag="a">
+          <router-link :to="{ name: 'home' }" class="text-gray-700 px-3 py-2 block rounded-md text-sm font-medium"
+                       @click="open = false" tag="a">
             Wallet
           </router-link>
-          <a class="text-white px-3 py-2 block rounded-md text-sm font-medium" href="javascript:void(0)"
+          <a class="text-gray-700 px-3 py-2 block rounded-md text-sm font-medium" href="javascript:void(0)"
              @click="launchSendCryptoModal()">
             Send
           </a>
-          <a class="text-white px-3 py-2 block rounded-md text-sm font-medium" href="javascript:void(0)"
+          <a class="text-gray-700 px-3 py-2 block rounded-md text-sm font-medium" href="javascript:void(0)"
              @click="launchRequestCryptoModal()">
             Request
           </a>
-          <a class="text-white px-3 py-2 block rounded-md text-sm font-medium" href="https://cointopay.com"
-             target="_blank">
+          <a class="text-gray-700 px-3 py-2 block rounded-md text-sm font-medium" href="https://cointopay.com"
+             @click="open = false" target="_blank">
             Buy / Sell
           </a>
-          <a v-if="isLoggedIn" class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
+          <a v-if="isLoggedIn" class="text-gray-700 px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
              @click="launchVerifyPasswordModal()">
             Wallet Private Key
           </a>
-          <a v-if="isLoggedIn" class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
+          <a v-if="isLoggedIn" class="text-gray-700 px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
              @click="launchSecurityModal()">Security</a>
-          <a class="text-white px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
+          <a class="text-gray-700 px-3 py-2 block rounded-md text-sm font-medium cursor-pointer"
              @click="logout()">Logout</a>
         </template>
       </div>
@@ -172,7 +172,8 @@ export default {
       socket: null,
       socketURL: process.env.VUE_APP_SOCKET_URL,
       isCloseSocket: false,
-      isRefreshing: false
+      isRefreshing: false,
+      open: false
     }
   },
   computed: {
@@ -215,9 +216,11 @@ export default {
       })
     },
     launchSendCryptoModal() {
+      this.open = false
       this.emitter.emit('send-crypto', {})
     },
     launchRequestCryptoModal() {
+      this.open = false
       if (this.wallets.length > 0) {
         this.emitter.emit('request-crypto', {
           address: this.wallets[0].address
@@ -225,14 +228,17 @@ export default {
       }
     },
     launchVerifyPasswordModal() {
+      this.open = false
       this.emitter.emit('verify-password', {
         address: null
       })
     },
     launchSecurityModal() {
+      this.open = false
       this.emitter.emit('show-mnemonics', {})
     },
     logout() {
+      this.open = false
       let state = this.$store.state
       let newState = {}
       const initialState = {
