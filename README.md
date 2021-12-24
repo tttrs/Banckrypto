@@ -1,4 +1,5 @@
 # Banckrypto
+Update backend endpoint in the .env file
 
 ## Project setup
 ```
