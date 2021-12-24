@@ -88,7 +88,7 @@ const routes = [
       },
       {
         path: '',
-        redirect: 'explorer'
+        redirect: 'wallet'
       },
     ]
   }

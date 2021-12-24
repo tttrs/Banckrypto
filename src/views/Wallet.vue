@@ -14,13 +14,7 @@
                        class="bg-white hover:bg-gray-100 text-gray-700 font-bold py-3 px-4 rounded mr-2 shadow">
             Getting Started
           </router-link>
-          <router-link tag="a" :to="{ name: 'login' }"
-                       class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded shadow">
-            Login
-          </router-link>
         </div>
-
-        <a href="/coinectar.war"></a>
 
       </div>
       <div class="hidden lg:block lg:col-span-1">
