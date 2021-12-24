@@ -105,7 +105,7 @@ router.beforeEach((to, from, next) => {
       return next({name: 'login'})
     }
   } else {
-    if (!to.path.startsWith('/explorer') && store.getters.isLoggedIn) {
+    if (!to.path.startsWith('/wallet') && store.getters.isLoggedIn) {
       return next({name: 'home'})
     }
   }
