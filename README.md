@@ -7,8 +7,11 @@ The native currency is EURx. See a live interaction with the EURx network via th
 This crypto wallet is the first hybrid blockchain bank wallet. You can transfer your EURx currency via the blockchain but you can also buy/sell trade it on cointopay.com. It is a stable currency which is being sold for one Euro per coin, however it has a limited supply of 100000000 units and can be traded on reflextrader.com. You can also import your EURx and send it via your verified bank account. You may also download this wallet and run it yourself. Welcome to the decentralized future!
 
 ## Project setup
-If you are planning to run your own backend as well please update the .env settings file first
+If you are planning to run your own Banckrypto backend as well please update the .env settings file first.
 Backend: https://github.com/Cointopay/BanckryptoNode
+Before you can run the below commands, first install:
+https://nodejs.org/en/download/ and then open a new command prompt for npm to install yarn:
+npm install -g yarn
 
 ```
 yarn install
