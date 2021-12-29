@@ -26,6 +26,11 @@ yarn serve
 ```
 yarn build
 ```
+after this move the "dist" folder contents to your webserver and load the main url
+NOTE: if you use NGINX make sure to add this configuration, which means if the URI is not found then revert back to the index.html.
+location / {
+  try_files $uri $uri/ /index.html;
+}
 
 ### Lints and fixes files
 ```
