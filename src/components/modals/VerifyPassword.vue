@@ -98,7 +98,13 @@ export default {
               key: response.data.result
             })
           } else {
+            this.isLoading = true
             this.$toast.error(response.data.error)
+            if (response.data.error.toLowerCase() === 'unauthorized') {
+              this.closeModal()
+              // logout
+              this.emitter.emit('logout')
+            }
           }
         }).catch(error => {
           this.isLoading = false

@@ -36,12 +36,16 @@
         <tbody class="bg-white divide-y divide-gray-200">
         <tr v-for="(wallet) in wallets" :key="wallet.address">
           <td class="px-4 py-2 whitespace-nowrap">
-            <a :href="'/explorer/address/' + wallet.address" class="text-blue-700 hover:text-blue-900 hover:underline"
-               target="_blank">{{ wallet.address }}</a>
+            <router-link tag="a" :to="{name: 'address', params: {address: wallet.address}}" class="text-blue-700 hover:text-blue-900 hover:underline">{{ wallet.address }}</router-link>
             <span v-if="wallet.type"
                   class="ml-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-700 bg-green-100 rounded">
               {{ wallet.type }}
             </span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 cursor-pointer text-gray-500 hover:text-blue-500 inline-block"
+                 viewBox="0 0 20 20" fill="currentColor" @click="cp(wallet.address)">
+              <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
+              <path d="M6 3a2 2 0 00-2 2v11a2 2 0 002 2h8a2 2 0 002-2V5a2 2 0 00-2-2 3 3 0 01-3 3H9a3 3 0 01-3-3z" />
+            </svg>
           </td>
           <td class="px-4 py-2 whitespace-nowrap">
             {{ wallet.balance + ' ' + currency }}
@@ -69,6 +73,7 @@
 import axios from "axios"
 import { mapGetters } from "vuex"
 import { FIRST_LOGIN, SAVE_WALLETS } from "@/store/keys"
+import Utils from "@/utils"
 
 export default {
   name: "Dashboard",
@@ -119,11 +124,18 @@ export default {
         } else {
           this.isLoading = false
           this.$toast.error(response.data.error)
+          if (response.data.error.toLowerCase() === 'unauthorized') {
+            // logout
+            this.emitter.emit('logout')
+          }
         }
       }).catch(error => {
         this.isLoading = false
         this.$toast.error(error.response.data.error)
       })
+    },
+    cp(val) {
+      return Utils.copyToClipboard(val, this)
     },
     getWalletsBalance() {
       axios.post(`${this.baseUrl}`, JSON.stringify({

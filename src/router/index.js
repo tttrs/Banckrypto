@@ -105,7 +105,10 @@ router.beforeEach((to, from, next) => {
       return next({name: 'login'})
     }
   } else {
-    if (!to.path.startsWith('/wallet') && store.getters.isLoggedIn) {
+    const paths = [
+      '/login'
+    ]
+    if (paths.indexOf(to.path) !== -1 && store.getters.isLoggedIn) {
       return next({name: 'home'})
     }
   }

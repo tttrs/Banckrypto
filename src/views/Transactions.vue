@@ -62,6 +62,10 @@ export default {
         this.isLoading = false
         if (response.data.error) {
           this.$toast.error(response.data.error)
+          if (response.data.error.toLowerCase() === 'unauthorized') {
+            // logout
+            this.emitter.emit('logout')
+          }
         } else {
           this.transactions = response.data.result
         }

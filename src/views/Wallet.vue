@@ -233,9 +233,9 @@ export default {
           this.$toast.error(response.data.error)
         } else {
           const data = response.data.result
-          const token = btoa(data.wallet.walletId + ':' + values.password)
+          const token = btoa(data.bip39Wallet.walletId + ':' + values.password)
           this.$store.commit(SET_IS_LOGGED_IN, true)
-          this.$store.commit(SAVE_WALLET_ID, data.wallet.walletId)
+          this.$store.commit(SAVE_WALLET_ID, data.bip39Wallet.walletId)
           this.$store.commit(SAVE_TOKEN, token)
           this.$store.commit(SAVE_WALLETS, data.balance)
           this.$router.push({name: 'home'})

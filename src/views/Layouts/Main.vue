@@ -151,7 +151,7 @@
     </div>
   </nav>
   <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 mb-4">
-    <div style="min-height: calc(100vh - 165px)">
+    <div style="min-height: calc(100vh - 212px)">
       <router-view/>
     </div>
   </div>
@@ -168,11 +168,11 @@
 import { mapGetters } from "vuex"
 import RequestCrypto from '@/components/modals/RequestCrypto.vue'
 import SendCrypto from '@/components/modals/SendCrypto.vue'
-import VerifyPassword from "@/components/modals/VerifyPassword";
-import ShowMnemonics from "@/components/modals/ShowMenomics";
-import ShowPrivateKey from "@/components/modals/ShowPrivateKey";
-import axios from "axios";
-import { SAVE_WALLETS } from "@/store/keys";
+import VerifyPassword from "@/components/modals/VerifyPassword"
+import ShowMnemonics from "@/components/modals/ShowMenomics"
+import ShowPrivateKey from "@/components/modals/ShowPrivateKey"
+import axios from "axios"
+import { SAVE_WALLETS } from "@/store/keys"
 import Footer from "./Partials/Footer"
 
 export default {
@@ -295,6 +295,9 @@ export default {
   },
   mounted() {
     this.initSocket()
+    this.emitter.on('logout', () => {
+      this.logout()
+    })
   },
   unmounted() {
     if (this.socket) {

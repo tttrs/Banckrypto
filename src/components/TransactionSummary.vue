@@ -2,7 +2,7 @@
   <div class="hidden lg:block">
     <div class="flex justify-between px-4 pt-4">
       <div class="flex items-center">
-        <span class="text-gray-500 inline-block w-24">Hash</span>
+        <span class="text-gray-500 inline-block w-16">Hash</span>
         <template v-if="link && transaction.hash !== '0'">
           <router-link tag="a" :to="{ name: 'transaction', params: { hash: transaction.hash } }"
                        class="text-blue-700 hover:text-blue-900 hover:underline inline-block">{{ transaction.hash }}
@@ -22,15 +22,13 @@
     </div>
     <div class="flex justify-between px-4 pt-4">
       <div class="flex items-start">
-        <span class="text-gray-500 inline-block w-24"></span>
-        <div v-if="transaction.inputs">
+        <div class="ml-16" v-if="transaction.inputs">
           <router-link tag="a" :to="{ name: 'address', params: { address: transaction.inputs[0].UTXO.address } }"
                        class="text-blue-700 hover:text-blue-900 hover:underline">
             {{ transaction.inputs[0].UTXO.address }}
           </router-link>
-          &emsp;
           <span
-              class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-700 bg-green-100 rounded">
+              class="inline-flex ml-2 items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-700 bg-green-100 rounded">
             {{ transaction.inputs[0].UTXO.amount + ' ' + currency }}</span>
         </div>
         <span v-else>COINBASE</span>
@@ -39,9 +37,9 @@
         <div v-for="(out) in transaction.outputs" :key="out.id">
           <router-link tag="a" :to="{ name: 'address', params: { address: out.address } }"
                        class="text-blue-700 hover:text-blue-900 hover:underline">{{ out.address }}
-          </router-link>&emsp;
+          </router-link>
           <span
-              class="inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-700 bg-green-100 rounded">
+              class="ml-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-green-700 bg-green-100 rounded">
               {{ out.amount + ' ' + currency }}</span>
         </div>
 

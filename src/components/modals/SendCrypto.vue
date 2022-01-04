@@ -4,9 +4,14 @@
       <Form @submit="submit" :validation-schema="schema" noValidate>
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="mt-3 text-center sm:mt-0 sm:text-left">
-            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-              Send {{ currency }}
-            </h3>
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                Send {{ currency }}
+              </h3>
+              <span>
+                <span class="cursor-pointer hover:text-blue-500" @click="setAmount(walletBalance)">{{ walletBalance }}</span>
+                {{ currency }}</span>
+            </div>
             <div class="mt-2">
               <div class="flex items-center justify-between">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="to">
@@ -131,34 +136,50 @@ export default {
           this.$store.commit(SAVE_WALLETS, wallets)
         } else {
           this.$toast.error(response.data.error)
+          if (response.data.error.toLowerCase() === 'unauthorized') {
+            // logout
+            this.emitter.emit('logout')
+          }
         }
       }).catch(error => {
         this.$toast.error(error.response.data.error)
       })
     },
+    setAmount(amount) {
+      document.getElementById('amount').value = amount
+    },
     submit(values) {
-      this.isLoading = true
-      axios.post(`${this.baseUrl}`, JSON.stringify({
-        method: 'sendtoaddress',
-        params: [values.to, values.amount]
-      }), {
-        headers: {
-          Authorization: 'Basic ' + this.token
-        }
-      }).then(response => {
-        this.isLoading = false
-        if (response.data.error === null) {
-          this.$toast.success('Transaction successful')
-          this.closeModal()
-          // Get updated balance
-          this.getLatestBalance()
-        } else {
-          this.$toast.error(response.data.error)
-        }
-      }).catch(error => {
-        this.isLoading = false
-        this.$toast.error(error.response.data.error)
-      })
+      if (values.amount > this.walletBalance) {
+        this.$toast.error('Insufficient balance')
+      } else {
+        this.isLoading = true
+        axios.post(`${this.baseUrl}`, JSON.stringify({
+          method: 'sendtoaddress',
+          params: [values.to, values.amount]
+        }), {
+          headers: {
+            Authorization: 'Basic ' + this.token
+          }
+        }).then(response => {
+          this.isLoading = false
+          if (response.data.error === null) {
+            this.$toast.success('Transaction successful')
+            this.closeModal()
+            // Get updated balance
+            this.getLatestBalance()
+          } else {
+            this.$toast.error(response.data.error)
+            if (response.data.error.toLowerCase() === 'unauthorized') {
+              this.closeModal()
+              // logout
+              this.emitter.emit('logout')
+            }
+          }
+        }).catch(error => {
+          this.isLoading = false
+          this.$toast.error(error.response.data.error)
+        })
+      }
     },
     async onInit (promise) {
       this.loading = true
@@ -201,7 +222,7 @@ export default {
         to: yup.string().required("Required"),
         amount: yup.number("Must be number").required("Required")
           .positive()
-          .min(0.1, 'Minimum should be 0.1').max(this.walletBalance, 'Insufficient balance')
+          .min(0.1, 'Minimum should be 0.1').max(this.walletBalance, 'Insufficient funds')
       })
     });
   }

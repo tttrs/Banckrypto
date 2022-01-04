@@ -78,6 +78,12 @@ export default {
           if (response.data.result !== null) {
             this.mnemonics = response.data.result.split(' ')
           }
+        } else {
+          if (response.data.error.toLowerCase() === 'unauthorized') {
+            this.closeModal()
+            // logout
+            this.emitter.emit('logout')
+          }
         }
       }).catch(error => {
         console.log(error.response.data.error)
