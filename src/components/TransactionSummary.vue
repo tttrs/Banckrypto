@@ -33,6 +33,9 @@
         </div>
         <span v-else>COINBASE</span>
       </div>
+      <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"></path>
+      </svg>
       <div>
         <div v-for="(out) in transaction.outputs" :key="out.id">
           <router-link tag="a" :to="{ name: 'address', params: { address: out.address } }"
