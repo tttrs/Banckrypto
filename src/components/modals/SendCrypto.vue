@@ -9,9 +9,8 @@
                 Send {{ currency }}
               </h3>
               <span>
-                <span class="cursor-pointer hover:text-blue-500" @click="setAmount(walletBalance)">{{
-                    walletBalance
-                  }}</span>
+                <span class="cursor-pointer hover:text-blue-500" @click="setAmount(walletBalance)">
+                  {{ walletBalance }}</span>
                 {{ currency }}</span>
             </div>
             <div class="mt-2">
@@ -24,8 +23,8 @@
                 </div>
               </div>
               <div class="flex flex-wrap items-stretch w-full mb-4 relative">
-                <Field id="to" ref="to" class="flex-shrink flex-grow flex-auto flex-1 form-input rounded rounded-r-none" name="to" placeholder="Paste address"
-                       type="text"/>
+                <Field id="to" ref="to" class="flex-shrink flex-grow flex-auto flex-1 form-input rounded rounded-r-none"
+                       name="to" placeholder="Paste address" type="text" v-model="form.to" />
                 <div class="flex">
                     <span class="flex items-center leading-normal bg-grey-lighter cursor-pointer rounded rounded-l-none border border-l-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm"
                           @click="isQrCodeReader = !isQrCodeReader">
@@ -61,8 +60,8 @@
                 </div>
               </div>
               <div class="flex flex-wrap items-stretch w-full mb-4 relative">
-                <Field id="amount" class="flex-shrink flex-grow flex-auto flex-1 form-input rounded rounded-r-none" name="amount" placeholder="0.00"
-                       type="number"/>
+                <Field id="amount" class="flex-shrink flex-grow flex-auto flex-1 form-input rounded rounded-r-none"
+                       name="amount" placeholder="0.00" type="number" v-model="form.amount" />
                 <div class="flex">
                     <span
                       class="flex items-center leading-normal bg-grey-lighter rounded rounded-l-none border border-l-0 border-grey-light px-3 whitespace-no-wrap text-grey-dark text-sm">
@@ -119,7 +118,11 @@ export default {
       walletBalance: 0,
       isLoading: false,
       loading: false,
-      isQrCodeReader: false
+      isQrCodeReader: false,
+      form: {
+        to: '',
+        amount: ''
+      }
     };
   },
   computed: {
@@ -127,7 +130,11 @@ export default {
   },
   methods: {
     closeModal() {
-      this.show = false;
+      this.show = false
+      this.form = {
+        to: '',
+        amount: ''
+      }
     },
     getLatestBalance() {
       axios.post(`${this.baseUrl}`, JSON.stringify({
@@ -153,10 +160,9 @@ export default {
       })
     },
     setAmount(amount) {
-      document.getElementById('amount').value = amount
+      this.form.amount = amount
     },
     submit(values) {
-      console.log(values)
       if (values.amount > this.walletBalance) {
         this.$toast.error('Insufficient balance')
       } else {
@@ -216,7 +222,7 @@ export default {
       }
     },
     onDecode(decodedStr) {
-      document.getElementById('to').value = decodedStr
+      this.form.to = decodedStr
       this.isQrCodeReader = false
     }
   },
